@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="chrome.plugin.trynew" style="height:500px;width:350px">
+  <head>
+    <title>Trello Checklists</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/angular/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="lib/angular/angular-material-icons.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body ng-controller="TryNewRootController as vm" layout="row" ng-cloak>
+    <div layout="column" flex>
+      <div ng-include="'app/views/toolbar.html'"></div>
+      <md-content flex>
+        <div ng-if="!vm.view.showSettings">
+          <md-tabs md-selected="vm.tabs.selectedIndex" md-stretch-tabs="always" md-dynamic-height>
+          <md-tab id="books_tab" md-on-select="vm.tabChanged()" 
+                  ng-if="vm.tabs.allowedTabs.books">
+            <md-tab-label>
+              <md-icon md-svg-icon="book" aria-label="Books"></md-icon>
+            </md-tab-label>
+            <md-tab-body>
+              <div ng-include="'app/views/books-tab.html'"></div>
+            </md-tab-body>
+          </md-tab>
+          
+          <md-tab id="movies_tab" md-on-select="vm.tabChanged()"
+                  ng-if="vm.tabs.allowedTabs.movies">
+            <md-tab-label>
+              <md-icon md-svg-icon="movie-tv" aria-label="Movies"></md-icon>
+            </md-tab-label>
+            <md-tab-body>
+              <div ng-include="'app/views/movies-tab.html'"></div>
+            </md-tab-body>
+          </md-tab>
+          
+          <md-tab id="music_tab" md-on-select="vm.tabChanged()"
+                  ng-if="vm.tabs.allowedTabs.music">
+            <md-tab-label>
+              <md-icon md-svg-icon="music" aria-label="Music"></md-icon>
+            </md-tab-label>
+            <md-tab-body>
+              <div ng-include="'app/views/music-tab.html'"></div>
+            </md-tab-body>
+          </md-tab>
+          
+          <md-tab id="misc_tab" md-on-select="vm.tabChanged()">
+            <md-tab-label>
+              <md-icon md-svg-icon="star" aria-label="Misc"></md-icon>
+            </md-tab-label>
+            <md-tab-body>
+              <div ng-include="'app/views/misc-items-tab.html'"></div>
+            </md-tab-body>
+          </md-tab>
+          
+        </md-tabs>
+        </div>
+        <div ng-if="vm.view.showSettings">
+          <div ng-include="'app/views/settings.html'"></div>
+        </div>
+      </md-content>
+    </div>
+    
+    <script type="text/javascript" src="lib/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-animate.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-material.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-material-icons.min.js"></script>
+    <script type="text/javascript" src="lib/angular/angular-messages.min.js"></script>
+    <script type="text/javascript" src="lib/utils/xml2json.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<div layout="column">
+  <md-content layout-padding>
+    <div>
+      <h4>Enabled tabs : </h4>
+    </div>
+    <md-checkbox ng-model="vm.tabs.allowedTabs.books" aria-label="Books">
+            Books
+    </md-checkbox> 
+    <md-checkbox ng-model="vm.tabs.allowedTabs.movies" aria-label="Books">
+            Movies
+    </md-checkbox> 
+    <md-checkbox ng-model="vm.tabs.allowedTabs.music" aria-label="Books">
+            Music
+    </md-checkbox>
+    <md-button class="md-raised md-primary" ng-click="vm.saveSettings()">
+      <md-icon md-svg-icon="save"></md-icon> Update
+    </md-button>
+  </md-content>
+</div>

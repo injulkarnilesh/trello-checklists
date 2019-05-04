@@ -1,0 +1,95 @@
+<div ng-controller="TryNewMiscItemController as vm" 
+     layout="column" ng-cloak 
+     class="md-inline-form misc-items-container">
+  
+  <md-content layout-padding ng-show="vm.flags.showNewItemForm">
+    <form name="miscItemsForm">
+      <md-input-container class="md-block">
+        <label>Type</label>
+        <input required md-no-asterisk 
+               name="type" maxlength="100"
+               placeholder="Item type. Eg. {{vm.itemExample.type}}"
+               ng-model="vm.newItem.type">
+        <div ng-messages="miscItemsForm.type.$error">
+          <ng-message when="required">This is required.</ng-message>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Name</label>
+        <input required md-no-asterisk 
+               name="name" maxlength="100"
+               placeholder="Item name. Eg. {{vm.itemExample.name}}"
+               ng-model="vm.newItem.name">
+        <div ng-messages="miscItemsForm.name.$error">
+          <ng-message when="required">This is required.</ng-message>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>URL</label>
+        <input md-no-asterisk  
+               name="url" type="url"
+               ng-model="vm.newItem.url">
+      </md-input-container>
+      
+      <div layout="row">
+        <div flex></div>
+        <div flex="40">
+          <md-button class="md-icon-button" aria-label="Cancel"
+                     ng-click="vm.cancelAdd()" ng-show="vm.flags.showNewItemForm">
+            <md-icon md-svg-icon="clear"></md-icon>
+          </md-button>
+          <md-button class="md-icon-button" 
+                     ng-class="{'md-primary' : miscItemsForm.$valid}"
+                     ng-disabled="!miscItemsForm.$valid"
+                     ng-click="vm.addNewItem()" aria-label="Add">
+            <md-icon md-svg-icon="add"></md-icon>
+          </md-button>
+        </div>
+      </div>
+    </form>
+  </md-content>
+  
+  <md-content>
+    <section>
+  
+      <div layout="row" ng-hide="vm.flags.showNewItemForm">
+      <div flex="80">
+        <md-subheader class="md-primary">Your Miscellaneous Items</md-subheader>  
+      </div>
+      <div flex="20">
+        <md-button class="md-icon-button"
+                   ng-click="vm.showAdForm()" aria-label="Add">
+          <md-icon md-svg-icon="add"></md-icon>
+        </md-button>
+          </div>
+      </div>
+      
+      <md-list layout-padding>
+        <md-list-item ng-repeat="myItem in vm.myMiscItems track by $index" 
+                      class="noright book-list" layout="row" layout-padding>
+        
+          <div layout="column" flex="90">
+            <div flex="50">
+              <div>
+                <strong>
+                  <a ng-if="myItem.url" ng-href="{{myItem.url}}" target="_blank"> {{myItem.name}} </a>
+                  <span ng-if="!myItem.url"> {{myItem.name}} </span>
+                </strong>
+              </div>
+            </div>
+            <div flex="50" class="md-primary">
+              {{myItem.type}}
+            </div>
+          </div>
+          <div flex="10">
+            <md-button class="md-icon-button remove-book md-primary" aria-label="Remove"
+                      ng-click="vm.deleteItem($index)">
+              <md-icon md-svg-icon="close"></md-icon>
+            </md-button>
+          </div>
+        </md-list-item>
+      </md-list>
+    </section>
+  </md-content>
+  
+</div>

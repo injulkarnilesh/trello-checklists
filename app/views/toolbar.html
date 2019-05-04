@@ -1,0 +1,17 @@
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools" layout="row">
+    <div flex="20">
+        <img src="/images/add-new-white.png" width="40" height="40">
+    </div>
+    <div flex="30" class="title-try-new">
+      <h1>Try Something</h1>
+    </div>
+    <div flex></div>
+    <md-button class="md-icon-button" aria-label="Settings" ng-click="vm.toggleShowSettings()">
+      <md-icon md-svg-icon="settings" 
+               ng-if="!vm.view.showSettings"></md-icon>
+      <md-icon md-svg-icon="settings_black"
+               ng-if="vm.view.showSettings"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Trello Checklists",
+  "description": "Trello Checklists in single place with reminders",
+  "short_name": "TrelloCheck",
+  "version": "1.0",
+  
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon" : "images/icon.png"
+  },
+  
+  "permissions": [
+    "storage",
+    "https://www.goodreads.com/",
+    "https://www.googleapis.com/"
+  ],
+  
+  "content_security_policy": "script-src 'self' https://sg.media-imdb.com https://*.media-imdb.com; object-src 'self'"
+}

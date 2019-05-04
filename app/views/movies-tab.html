@@ -1,0 +1,78 @@
+<div ng-controller="TryNewMovieController as vm">
+  <md-content layout-padding>
+    <div>
+      <md-autocomplete
+              md-selected-item="vm.newSelectedMovie"
+              md-search-text="vm.searchText"
+              md-selected-item-change="vm.selectedItemChange(item)"
+              md-items="item in vm.querySearch(vm.searchText)"
+              md-selected-item-change="vm.movieSelected(item)"
+              md-item-text="item.title"
+              md-min-length="3"
+              md-clear-button="true"
+              placeholder="Try new movie"
+              md-menu-class="autocomplete-custom-template">
+            <md-item-template>
+              <div layout="row">
+                <div>
+                  <img ng-src="{{item.imageUrl}}" width="50" height="75">
+                </div>
+                <div layout="column" class="suggestion-book-details">
+                  <div><strong>{{item.title}}</strong></div>
+                  <div>{{item.year}}</div>
+                  <div class="md-caption">{{item.cast}}</div>
+                </div>
+              </div>
+            </md-item-template>
+            <md-not-found>
+              Not book found for "{{vm.searchText}}".
+            </md-not-found>
+        </md-autocomplete>
+    </div>
+  </md-content>
+  <md-content ng-if="vm.newSelectedMovie" layout-padding>
+    <div layout="row">
+        <div flex="20">
+          <img ng-src="{{vm.newSelectedMovie.imageUrl}}" width="50" height="75">
+        </div>
+        <div layout="column" class="suggestion-book-details" flex="70">
+          <div><strong>{{vm.newSelectedMovie.title}}</strong></div>
+          <div>{{vm.newSelectedMovie.year}}</div>
+          <div class="md-caption">{{vm.newSelectedMovie.cast}}</div>
+        </div>
+        <div flex="10">
+          <md-button class="md-icon-button"  ng-click="vm.addNewMovie()" aria-label="Add">
+            <md-icon md-svg-icon="add"></md-icon>
+          </md-button>
+        </div>
+    </div>
+  </md-content>
+  <md-content>
+    <section>
+      <md-subheader class="md-primary">Your movies</md-subheader>
+      <md-list layout-padding>
+        <md-list-item ng-repeat="myMovie in vm.myMovies track by myMovie.id" 
+                      class="noright book-list" layout="row" layout-padding>
+            <div flex="20" class="md-primary">
+              <img ng-src="{{myMovie.imageUrl}}"  width="50" height="75">
+            </div>
+            <div flex="70">
+              <div>
+                <strong>
+                  <a ng-href="http://www.imdb.com/title/{{myMovie.id}}/" target="_blank">{{myMovie.title}}</a>          
+                </strong></div>
+              <div>{{myMovie.year}}</div>
+              <div class="md-caption">{{myMovie.cast}}</div>
+            </div>
+            <div flex="10">
+              <md-button class="md-icon-button remove-book md-primary" aria-label="Remove"
+                        ng-click="vm.deleteMovie(myMovie)">
+                <md-icon md-svg-icon="close"></md-icon>
+              </md-button>
+            </div>
+        </md-list-item>
+      </md-list>
+    </section>
+  </md-content>
+  
+</div>

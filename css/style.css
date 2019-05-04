@@ -1,0 +1,36 @@
+.title-try-new {
+  font-weight: 200;
+}
+
+.autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal;
+}
+.autocomplete-custom-template li:last-child {
+  border-bottom-width: 0;
+}
+
+.autocomplete-custom-template .suggestion-book-details {
+  padding-left: 10px;
+  line-height: 25px;
+}
+
+.book-list {
+  border-top: 1px solid #f5f1f1;
+}
+
+.book-list:hover .remove-book {
+  display: flex;
+}
+
+.remove-book {
+  display: none;
+}
+
+.misc-items-container md-input-container {
+  margin: 7px
+}
+
