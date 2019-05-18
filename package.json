@@ -1,0 +1,40 @@
+{
+  "name": "trello-checklists",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Chrome Plugin for Trello Checklists",
+  "repository": "https://github.com/injulkarnilesh/trello-checklists",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "3.4.1",
+    "angular": "1.7.5",
+    "angular-loader": "1.7.5",
+    "angular-route": "1.7.5",
+    "angular-animate": "1.7.5",
+    "angular-aria": "1.7.5",
+    "angular-messages": "1.7.5",
+    "angular-material": "1.1.18",
+    "html5-boilerplate": "0.0.1",
+    "angular-material-icons": "0.7.1",
+    "bootstrap": "4.3.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.7.5",
+    "cpx": "1.5.0",
+    "http-server": "0.11.1",
+    "jasmine-core": "3.3.0",
+    "karma": "3.1.1",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-firefox-launcher": "1.1.0",
+    "karma-jasmine": "1.1.2"
+  },
+  "scripts": {
+    "update-deps": "npm update",
+    "copy-libs": "cpx \"node_modules/{angular,bootstrap,jquery,angular-*,html5-boilerplate/dist}/**/*\" app/lib -C",
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8000 -c-1 ./app",
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "npm test -- --single-run"
+  }
+}
