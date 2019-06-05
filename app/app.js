@@ -1,36 +1,76 @@
 'use strict';
 
 angular.module('chrome.plugin.trynew', ['ngMaterial', 'ngMdIcons', 'ngMessages'])
-.controller('TryNewRootController', ['StorageService', function(StorageService) {
+.controller('TryNewRootController', ['AuthService', function(AuthService) {
     var vm = this;
-    vm.trelloLogin = function() {
-      Trello.authorize({
-        name: 'Trello Checklist',
-        interactive: true,
-        persist: true,
-        scope: { read: true, write: true, account: true },
-        expiration: 'never', 
-        success: function() {
-          console.log('SUCCESS LOGIN');
-        },
-        error: function(err) {
-          console.error('LOGIN ERR', err);
-        }
-      });
+    vm.loginRequired = true;
+
+    var token = AuthService.getUrlToken();
+    if (token) {
+      AuthService.loginNonInteractive();
+    }
+
+    vm.loginRequired = !AuthService.isLoggedIn();  
+
+    vm.trelloLogin = function() {    
+        AuthService.loginInteractive();
     };
+
+    vm.trelloLogout = function() {
+      AuthService.logout();
+      location.reload();
+    }
     
+}])
+.service('AuthService', ['$location', function($location) {
+  var TRELLO_TOKEN = 'trello_token';
+  function login(isInteractive) {
+    Trello.authorize({
+      name: 'Trello Checklist',
+      interactive: isInteractive,
+      persist: true,
+      scope: { read: true, write: true, account: true },
+      expiration: 'never'
+    });
+  } 
+
+  this.isLoggedIn = function() {
+    return localStorage.getItem(TRELLO_TOKEN);
+  };
+
+  this.logout = function() {
+    localStorage.removeItem(TRELLO_TOKEN);
+  };
+
+  this.loginInteractive = function() {
+    login(true);
+  };
+
+  this.loginNonInteractive = function() {
+    login(false);
+  };
+
+  this.getUrlToken =  function() {
+    var params = $location.search();
+    if(params.token) {
+      return params.token;
+    }
+    var hash = $location.hash();
+    if(hash && hash.length) {
+      var hashKeyValue = hash.split('=');
+      if(hashKeyValue.length == 2) {
+        return hashKeyValue[1];
+      }
+    }
+    return undefined;
+  };
 }])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue');
 })
-.service('StorageService', [ function() {
-  var book_key = 'TryNewBooks';
-  var movie_key = 'TryNewMovies';
-  var music_key = 'TryNewMusic';
-  var tab_key = 'TryNewTab';
-  var misc_item_key = 'MiscItemKey';
-  
+.service('StorageService', [function() {
+
   function getStorage(key, callback) {
     chrome.storage.sync.get(key, function(data) {
       if(callback) {
@@ -48,47 +88,7 @@ angular.module('chrome.plugin.trynew', ['ngMaterial', 'ngMdIcons', 'ngMessages']
       }
     })
   }
-  
-  this.getBooks = function(callBack) {
-    getStorage(book_key, callBack);
-  };
-  
-  this.setBooks = function(books, callBack) {
-    setStorage(book_key, books, callBack);
-  }
-  
-  this.getMovies = function(callBack) {
-    getStorage(movie_key, callBack);
-  };
-  
-  this.setMovies = function(movies, callBack) {
-    setStorage(movie_key, movies, callBack);
-  }
-  
-  this.setMusic = function(music, callBack) {
-    setStorage(music_key, music, callBack);
-  }
-  
-  this.getMusic = function(callBack) {
-    getStorage(music_key, callBack);
-  }
-  
-  this.setMiscItems = function(items, callBack) {
-    setStorage(misc_item_key, items, callBack);
-  }
-  
-  this.getMiscItems = function(callBack) {
-    getStorage(misc_item_key, callBack);
-  }
-  
-  this.setLastTab = function(tabDetails) {
-    setStorage(tab_key, tabDetails);
-  }
-  
-  this.getLastTab = function(callback) {
-    getStorage(tab_key, callback);
-  }
-  
+
 }])
 .service('ToastService', ['$mdToast', function($mdToast) {
   
