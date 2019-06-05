@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="chrome.plugin.trynew" style="height:500px;width:350px">
+<html ng-app="chrome.plugin.trynew">
   <head>
     <title>Trello Checklists</title>
     <link rel="stylesheet" type="text/css" href="app/lib/angular-material/angular-material.min.css">
@@ -8,7 +8,6 @@
   </head>
   <body ng-controller="TryNewRootController as vm" layout="row" ng-cloak>
     <div layout="column" flex>
-      <div ng-include="'app/views/toolbar.html'"></div>
       <md-content flex>
         <div>
           <md-button class="md-raised md-primary" ng-click="vm.trelloLogin()">

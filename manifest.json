@@ -9,12 +9,26 @@
     "default_popup": "index.html",
     "default_icon" : "images/icon.png"
   },
+
+  "externally_connectable": {
+    "ids": [ 
+      "*"
+    ],
+    "matches": [
+      "https://trello.com/*"
+    ]
+  },
+
+  "web_accessible_resources": [
+    "login.html"
+  ],
   
   "permissions": [
     "storage",
     "https://www.goodreads.com/",
-    "https://www.googleapis.com/"
+    "https://www.googleapis.com/",
+    "https://trello.com/"
   ],
   
-  "content_security_policy": "script-src 'self' https://sg.media-imdb.com https://*.media-imdb.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://sg.media-imdb.com https://*.media-imdb.com https://trello.com; object-src 'self'"
 }
