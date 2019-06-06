@@ -5,6 +5,8 @@ module.exports = function(config) {
     basePath: '.',
 
     files: [
+      'app/lib/jquery/dist/jquery.min.js',
+      'app/utils/trello-client.js',
       'app/lib/angular/angular.min.js',
       'app/lib/angular-animate/angular-animate.min.js',
       'app/lib/angular-aria/angular-aria.min.js',
@@ -15,6 +17,7 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'app/app.js',
       'app/app.spec.js',
+      'app/js/**/*.js'
     ],
 
     autoWatch: true,

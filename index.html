@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="chrome.plugin.trynew" style="height:500px;width:350px">
+<html ng-app="chrome.plugin.trello.checklist" style="height:500px;width:350px">
   <head>
     <title>Trello Checklists</title>
     <link rel="stylesheet" type="text/css" href="app/lib/angular-material/angular-material.min.css">
     <link rel="stylesheet" type="text/css" href="app/lib/angular-material-icons/angular-material-icons.css">
     <link rel="stylesheet" type="text/css" href="app/css/style.css">
   </head>
-  <body ng-controller="TryNewRootController as vm" layout="row" ng-cloak>
+  <body ng-controller="TrelloLoginController as vm" layout="row" ng-cloak>
     <div layout="column" flex>
       <div ng-include="'app/views/toolbar.html'"></div>
       <md-content flex>
@@ -18,7 +18,7 @@
       </md-content>
     </div>
     <script type="text/javascript" src="app/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="https://trello.com/1/client.js?key=d26d90d17f78f98331402788309ca75d"></script>
+    <script type="text/javascript" src="app/utils/trello-client.js"></script>
     <script type="text/javascript" src="app/lib/angular/angular.min.js"></script> 
     <script type="text/javascript" src="app/lib/angular-animate/angular-animate.min.js"></script>
     <script type="text/javascript" src="app/lib/angular-aria/angular-aria.min.js"></script>
@@ -26,5 +26,7 @@
     <script type="text/javascript" src="app/lib/angular-material-icons/angular-material-icons.min.js"></script>
     <script type="text/javascript" src="app/lib/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/js/services/auth-service.js"></script>
+    <script type="text/javascript" src="app/js/controllers/login-controller.js"></script>
   </body>
 </html>
