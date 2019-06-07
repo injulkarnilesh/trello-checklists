@@ -15,6 +15,10 @@ angular.module('chrome.plugin.trello.checklist')
   } 
 
   this.isLoggedIn = function() {
+    return this.getToken();
+  };
+
+  this.getToken = function() {
     return localStorage.getItem(TRELLO_TOKEN);
   };
 

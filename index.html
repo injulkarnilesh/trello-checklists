@@ -6,14 +6,17 @@
     <link rel="stylesheet" type="text/css" href="app/lib/angular-material-icons/angular-material-icons.css">
     <link rel="stylesheet" type="text/css" href="app/css/style.css">
   </head>
-  <body ng-controller="TrelloLoginController as vm" layout="row" ng-cloak>
+  <body ng-controller="TrelloChecklistsController as vm" layout="row" ng-cloak>
     <div layout="column" flex>
       <div ng-include="'app/views/toolbar.html'"></div>
       <md-content flex>
-        <div>
-          <md-button class="md-raised md-primary" ng-click="vm.trelloLogin()">
+        <div ng-if="!vm.isLoggedIn">
+          <md-button class="md-raised md-primary" ng-click="vm.testAPI()">
             <md-icon md-svg-icon="save"></md-icon> Trello Login
           </md-button>
+        </div>
+        <div ng-if="vm.isLoggedIn">
+          User Found : <span ng-bind="vm.user.fullName"></span>
         </div>
       </md-content>
     </div>
@@ -27,6 +30,8 @@
     <script type="text/javascript" src="app/lib/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/js/services/auth-service.js"></script>
+    <script type="text/javascript" src="app/js/services/trello-api.js"></script>
     <script type="text/javascript" src="app/js/controllers/login-controller.js"></script>
+    <script type="text/javascript" src="app/js/controllers/trello-checklists-controller.js"></script>
   </body>
 </html>

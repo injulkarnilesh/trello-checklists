@@ -19,6 +19,15 @@ describe('Unit: AuthService', function() {
         expect(AuthService.isLoggedIn()).toBeTruthy();
     });
 
+    it('should get token if set', function() {
+        localStorage.setItem('trello_token', 'someToken');
+        expect(AuthService.getToken()).toBe('someToken');
+    });
+
+    it('should not get token if not set', function() {
+        expect(AuthService.getToken()).toBeFalsy();
+    });
+
     it('should logout', function() {
         localStorage.setItem('trello_token', 'anything');
         expect(AuthService.isLoggedIn()).toBeTruthy();

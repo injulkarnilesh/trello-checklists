@@ -1,15 +1,15 @@
 beforeEach(module('chrome.plugin.trello.checklist'));
 
 describe('Unit: TrelloLoginController', function() {
-	var scope;
-	var loginController;
+	var controller;
     var authService;
-    var controller;
+    var $controller;
     var $window;
+    var scope;
 
-	beforeEach(inject(function($controller, $rootScope) {
+	beforeEach(inject(function(_$controller_, $rootScope) {
         scope = $rootScope.$new();
-        controller = $controller;
+        $controller = _$controller_;
         $window = {
             location: {
                 reload: jasmine.createSpy()
@@ -27,19 +27,19 @@ describe('Unit: TrelloLoginController', function() {
     }));
 
     it('should be defined', function() {
-        expect(loginController).toBeDefined();
+        expect(controller).toBeDefined();
     });
 
     it('should set login required when not logged in', function() {
         authService.isLoggedIn.and.returnValue(false);
         initController();
-        expect(loginController.loginRequired).toBe(true);
+        expect(controller.loginRequired).toBe(true);
     });
 
     it('should not set login required when already logged in', function() {
         authService.isLoggedIn.and.returnValue(true);
         initController();
-        expect(loginController.loginRequired).toBe(false);
+        expect(controller.loginRequired).toBe(false);
     });
 
     it('should login interactively when token found in URL', function() {
@@ -55,18 +55,18 @@ describe('Unit: TrelloLoginController', function() {
     });
 
     it('should trello login', function() {
-        loginController.trelloLogin();
+        controller.trelloLogin();
         expect(authService.loginInteractive).toHaveBeenCalled();
     });
 
     it('should trello logout', function() {
-        loginController.trelloLogout();
+        controller.trelloLogout();
         expect(authService.logout).toHaveBeenCalled();
         expect($window.location.reload).toHaveBeenCalled();
     });
 
     function initController() {
-        loginController = controller('TrelloLoginController', {
+        controller = $controller('TrelloLoginController', {
             $scope: scope,
             AuthService: authService,
             $window: $window
