@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chrome.plugin.trello.checklist')
-.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$scope', function(AuthService, TrelloAPIFactory, $scope) {
+.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', function(AuthService, TrelloAPIFactory) {
     var vm = this;
     vm.isLoggedIn = AuthService.isLoggedIn();
     vm.user = { };
@@ -10,7 +10,6 @@ angular.module('chrome.plugin.trello.checklist')
         vm.trelloAPI = TrelloAPIFactory.with(AuthService.getToken());
         vm.trelloAPI.userDetails(function(user) {     
             vm.user = user;
-            $scope.$apply();
         }, function() {
 
         });

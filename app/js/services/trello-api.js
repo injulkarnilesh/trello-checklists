@@ -1,15 +1,23 @@
 'use strict';
 
 angular.module('chrome.plugin.trello.checklist')
-.service('TrelloAPIFactory', ['AuthService', function(AuthService) {
-
+.service('TrelloAPIFactory', ['$timeout', function($timeout) {
+  
   function TrelloAPI(token) {
     this.token = token;
-
-    this.userDetails = function(success, error) {
-        Trello.get('members/me', {'fields': 'username,fullName,email,url,id,avatarUrl', 'token': token}, success, error);
-    };
   }
+
+  TrelloAPI.prototype.callBackWithDigest =  function(callback) {
+    return function(resp) {
+      $timeout(function() {
+        callback(resp);
+      });
+    }
+  };
+
+  TrelloAPI.prototype.userDetails = function(success, error) {
+    Trello.get('members/me', {'fields': 'username,fullName,email,url,id,avatarUrl', 'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
+  };
 
   this.with = function(token) {
     return new TrelloAPI(token);

@@ -2,18 +2,33 @@ beforeEach(module('chrome.plugin.trello.checklist'));
 
 describe('Unit: TrelloAPIFactory', function() {
     var TrelloAPIFactory, trello;
-    var toekn;
-    var api, success, error;
-    beforeEach(inject(function(_TrelloAPIFactory_) {
+    var token;
+    var api, success, error, timeout;
+    beforeEach(function() {
         token = 'token';
         success = jasmine.createSpy();
         error = jasmine.createSpy();
-        TrelloAPIFactory = _TrelloAPIFactory_;
+        timeout = jasmine.createSpy();
+        
         trello = window.Trello;
         spyOn(trello, ['get']);
+        
+
+        // inject(function($rootScope) {
+        //     rootScope = $rootScope;
+        //     spyOn($rootScope, ['$digest']);
+        // });
+
+        module(function ($provide) {
+            $provide.value('$timeout', timeout);
+        });
+
+        inject(function(_TrelloAPIFactory_) {
+            TrelloAPIFactory = _TrelloAPIFactory_;
+        });
 
         api = TrelloAPIFactory.with(token);
-    }));
+    });
 
     it('should create TrelloAPI with token', function() {
         expect(api.token).toBe(token);
@@ -32,9 +47,17 @@ describe('Unit: TrelloAPIFactory', function() {
         expect(apiArgs[1].fields).toContain('id');
         expect(apiArgs[1].fields).toContain('avatarUrl');
         expect(apiArgs[1].token).toBe(token);
-        expect(apiArgs[2]).toBe(success);
-        expect(apiArgs[3]).toBe(error);
+
+        expectCallBackToHaveBeenCalled(apiArgs[2], success);
+        expectCallBackToHaveBeenCalled(apiArgs[3], error);
     });
+
+    function expectCallBackToHaveBeenCalled(callBackArgument, callBack) {
+        callBackArgument();
+        var timeoutCall = timeout.calls.mostRecent().args[0];
+        timeoutCall();
+        expect(callBack).toHaveBeenCalled();
+    }
 
 });
   
