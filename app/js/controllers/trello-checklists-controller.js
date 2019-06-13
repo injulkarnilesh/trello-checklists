@@ -16,7 +16,7 @@ angular.module('chrome.plugin.trello.checklist')
     } 
 
     vm.login = function() {
-        chrome.tabs.create({ url: '/login.html' });
+        AuthService.toLoginPage();
     };
 
 }])

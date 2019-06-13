@@ -34,6 +34,10 @@ angular.module('chrome.plugin.trello.checklist')
     login(false);
   };
 
+  this.toLoginPage = function() {
+    chrome.tabs.create({ url: '/login.html' });
+  };
+
   this.getUrlToken =  function() {
     var params = $location.search();
     if(params.token) {
