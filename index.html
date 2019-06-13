@@ -8,14 +8,12 @@
   </head>
   <body ng-controller="TrelloChecklistsController as vm" layout="row" ng-cloak>
     <div layout="column" flex>
-      <div ng-include="'app/views/toolbar.html'"></div>
       <md-content flex>
         <div ng-if="!vm.isLoggedIn">
-          <md-button class="md-raised md-primary" ng-click="vm.testAPI()">
-            <md-icon md-svg-icon="save"></md-icon> Trello Login
-          </md-button>
+            <div ng-include="'app/views/login.html'"></div>
         </div>
         <div ng-if="vm.isLoggedIn">
+          <div ng-include="'app/views/toolbar.html'"></div>
           User Found : <span ng-bind="vm.user.fullName"></span>
         </div>
       </md-content>

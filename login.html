@@ -9,15 +9,11 @@
   <body ng-controller="TrelloLoginController as vm" layout="row" ng-cloak>
     <div layout="column" flex>
       <md-content flex>
-        <div ng-if="vm.loginRequired">
-          <md-button class="md-raised md-primary" ng-click="vm.trelloLogin()">
-            <md-icon md-svg-icon="save"></md-icon> Trello Login
-          </md-button>
-        </div>
         <div ng-if="!vm.loginRequired">
-          You are logged into Trello.
-          <md-button class="md-raised md-primary" ng-click="vm.trelloLogout()">
-            <md-icon md-svg-icon="save"></md-icon> Trello Logout
+          <h2>You are logged with Trello.</h2>
+          <h3>Enjoy Trello Checklists</h3>
+          <md-button class="md-raised md-warn" ng-click="vm.trelloLogout()">
+            <md-icon md-svg-icon="close"></md-icon>Logout
           </md-button>
         </div>
       </md-content>

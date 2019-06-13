@@ -11,11 +11,9 @@ describe('Unit: TrelloLoginController', function() {
         scope = $rootScope.$new();
         $controller = _$controller_;
         $window = {
-            location: {
-                reload: jasmine.createSpy()
-            }
+            close: jasmine.createSpy()
         };
-        $window.location.reload.and.callFake(function() { });
+        $window.close.and.callFake(function() { });
         authService = {
             getUrlToken: jasmine.createSpy(),
             loginNonInteractive: jasmine.createSpy(),
@@ -33,36 +31,38 @@ describe('Unit: TrelloLoginController', function() {
     it('should set login required when not logged in', function() {
         authService.isLoggedIn.and.returnValue(false);
         initController();
+
         expect(controller.loginRequired).toBe(true);
+        expect(authService.loginInteractive).toHaveBeenCalled();
     });
 
     it('should not set login required when already logged in', function() {
+        authService.loginInteractive.calls.reset();
         authService.isLoggedIn.and.returnValue(true);
         initController();
+
         expect(controller.loginRequired).toBe(false);
+        expect(authService.loginInteractive).not.toHaveBeenCalled();
     });
 
     it('should login interactively when token found in URL', function() {
         authService.getUrlToken.and.returnValue('someToken');
         initController();
+
         expect(authService.loginNonInteractive).toHaveBeenCalled();
     });
 
     it('should not login interactively when token not found in URL', function() {
         authService.getUrlToken.and.returnValue(undefined);
         initController();
-        expect(authService.loginNonInteractive).not.toHaveBeenCalled();
-    });
 
-    it('should trello login', function() {
-        controller.trelloLogin();
-        expect(authService.loginInteractive).toHaveBeenCalled();
+        expect(authService.loginNonInteractive).not.toHaveBeenCalled();
     });
 
     it('should trello logout', function() {
         controller.trelloLogout();
         expect(authService.logout).toHaveBeenCalled();
-        expect($window.location.reload).toHaveBeenCalled();
+        expect($window.close).toHaveBeenCalled();
     });
 
     function initController() {

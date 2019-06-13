@@ -51,6 +51,11 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
   }
   
 }])
+.config(['$compileProvider',function($compileProvider) {   
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|chrome-extension):/);
+      $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|mailto|chrome-extension):/);
+  }
+])
 .config(function($mdIconProvider) {
   $mdIconProvider
     .icon('magnify', 'images/icons/magnify.svg', 24)

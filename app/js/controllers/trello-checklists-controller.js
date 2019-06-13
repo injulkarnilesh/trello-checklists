@@ -13,6 +13,10 @@ angular.module('chrome.plugin.trello.checklist')
         }, function() {
 
         });
-    }
+    } 
+
+    vm.login = function() {
+        chrome.tabs.create({ url: '/login.html' });
+    };
 
 }])
