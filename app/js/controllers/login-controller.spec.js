@@ -19,7 +19,8 @@ describe('Unit: TrelloLoginController', function() {
             loginNonInteractive: jasmine.createSpy(),
             isLoggedIn: jasmine.createSpy(),
             loginInteractive: jasmine.createSpy(),
-            logout: jasmine.createSpy()
+            logout: jasmine.createSpy(),
+            shouldLogout: jasmine.createSpy()
         }
         initController();
     }));
@@ -61,6 +62,15 @@ describe('Unit: TrelloLoginController', function() {
 
     it('should trello logout', function() {
         controller.trelloLogout();
+
+        expect(authService.logout).toHaveBeenCalled();
+        expect($window.close).toHaveBeenCalled();
+    });
+
+    it('should logout if requested', function() {
+        authService.shouldLogout.and.returnValue(true);
+        initController();
+
         expect(authService.logout).toHaveBeenCalled();
         expect($window.close).toHaveBeenCalled();
     });

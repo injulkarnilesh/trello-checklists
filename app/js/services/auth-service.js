@@ -3,6 +3,7 @@
 angular.module('chrome.plugin.trello.checklist')
 .service('AuthService', ['$location', function($location) {
   var TRELLO_TOKEN = 'trello_token';
+  var LOGOUT = 'logout';
   
   function login(isInteractive) {
     Trello.authorize({
@@ -36,6 +37,14 @@ angular.module('chrome.plugin.trello.checklist')
 
   this.toLoginPage = function() {
     chrome.tabs.create({ url: '/login.html' });
+  };
+
+  this.toLogoutPage = function() {
+    chrome.tabs.create({ url: '/login.html?' + LOGOUT + '=true' });
+  };
+
+  this.shouldLogout = function() {
+    return location.search.indexOf(LOGOUT) > -1;
   };
 
   this.getUrlToken =  function() {

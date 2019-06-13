@@ -19,4 +19,8 @@ angular.module('chrome.plugin.trello.checklist')
         AuthService.toLoginPage();
     };
 
+    vm.logout = function() {
+        AuthService.toLogoutPage();
+    };
+
 }])

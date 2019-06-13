@@ -15,7 +15,8 @@ describe('Unit: TrelloChecklistsController', function() {
             getToken: jasmine.createSpy(),
             isLoggedIn: jasmine.createSpy(),
             logout: jasmine.createSpy(),
-            toLoginPage: jasmine.createSpy()
+            toLoginPage: jasmine.createSpy(),
+            toLogoutPage: jasmine.createSpy()
         };
         trelloAPIFactory = {
             with: jasmine.createSpy()
@@ -77,6 +78,12 @@ describe('Unit: TrelloChecklistsController', function() {
         controller.login();
 
         expect(authService.toLoginPage).toHaveBeenCalled();
+    });
+
+    it('should logout with logout page', function() {
+        controller.logout();
+
+        expect(authService.toLogoutPage).toHaveBeenCalled();
     });
 
     function someUser() {
