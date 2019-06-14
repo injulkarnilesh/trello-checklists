@@ -57,7 +57,6 @@ describe('Unit: TrelloAPIFactory', function() {
         expect(apiArgs[1].fields).toContain('id');
         expect(apiArgs[1].fields).toContain('dateLastActivity');
         expect(apiArgs[1].fields).toContain('closed');
-        expect(apiArgs[1].fields).toContain('prefs');
         expect(apiArgs[1].token).toBe(token);
 
         expectCallBackToHaveBeenCalled(apiArgs[2], success);
