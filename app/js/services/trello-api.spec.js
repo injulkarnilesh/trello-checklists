@@ -12,12 +12,6 @@ describe('Unit: TrelloAPIFactory', function() {
         
         trello = window.Trello;
         spyOn(trello, ['get']);
-        
-
-        // inject(function($rootScope) {
-        //     rootScope = $rootScope;
-        //     spyOn($rootScope, ['$digest']);
-        // });
 
         module(function ($provide) {
             $provide.value('$timeout', timeout);
