@@ -33,6 +33,10 @@ describe('Unit: TrelloChecklistsController', function() {
         expect(controller).toBeDefined();
     });
 
+    it('should have toolbar settings', function() {
+        expect(controller.toolbar.showOptions).toBe(false);
+    });
+
     it('should check if user is logged in', function() {
         authService.isLoggedIn.and.returnValue(true);
         initController();

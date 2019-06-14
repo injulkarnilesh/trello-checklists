@@ -14,10 +14,7 @@
         </div>
         <div ng-if="vm.isLoggedIn">
           <div ng-include="'app/views/toolbar.html'"></div>
-          User Found : <span ng-bind="vm.user.fullName"></span>
-          <md-button class="md-raised md-warn" ng-click="vm.logout()">
-              <md-icon md-svg-icon="close"></md-icon>Logout
-          </md-button>
+          <md-divider></md-divider>
         </div>
       </md-content>
     </div>

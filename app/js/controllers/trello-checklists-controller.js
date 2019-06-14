@@ -3,6 +3,10 @@
 angular.module('chrome.plugin.trello.checklist')
 .controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', function(AuthService, TrelloAPIFactory) {
     var vm = this;
+    vm.toolbar = {
+        showOptions: false
+    };
+
     vm.isLoggedIn = AuthService.isLoggedIn();
     vm.user = { };
     
