@@ -46,6 +46,24 @@ describe('Unit: TrelloAPIFactory', function() {
         expectCallBackToHaveBeenCalled(apiArgs[3], error);
     });
 
+    it('should get boards', function() {
+        api.boards(success, error);
+
+        expect(trello.get).toHaveBeenCalled();
+        var apiArgs = trello.get.calls.mostRecent().args;
+        expect(apiArgs[0]).toBe('members/me/boards');
+
+        expect(apiArgs[1].fields).toContain('name');
+        expect(apiArgs[1].fields).toContain('id');
+        expect(apiArgs[1].fields).toContain('dateLastActivity');
+        expect(apiArgs[1].fields).toContain('closed');
+        expect(apiArgs[1].fields).toContain('prefs');
+        expect(apiArgs[1].token).toBe(token);
+
+        expectCallBackToHaveBeenCalled(apiArgs[2], success);
+        expectCallBackToHaveBeenCalled(apiArgs[3], error); 
+    });
+
     function expectCallBackToHaveBeenCalled(callBackArgument, callBack) {
         callBackArgument();
         var timeoutCall = timeout.calls.mostRecent().args[0];

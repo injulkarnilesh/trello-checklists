@@ -15,6 +15,7 @@
         <div ng-if="vm.isLoggedIn">
           <div ng-include="'app/views/toolbar.html'"></div>
           <md-divider></md-divider>
+          <show-trello-boards></show-trello-boards>
         </div>
       </md-content>
     </div>
@@ -31,5 +32,6 @@
     <script type="text/javascript" src="app/js/services/trello-api.js"></script>
     <script type="text/javascript" src="app/js/controllers/login-controller.js"></script>
     <script type="text/javascript" src="app/js/controllers/trello-checklists-controller.js"></script>
+    <script type="text/javascript" src="app/js/directives/boards/show-trello-boards.js"></script>
   </body>
 </html>

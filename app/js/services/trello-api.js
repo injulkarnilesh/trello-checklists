@@ -19,6 +19,10 @@ angular.module('chrome.plugin.trello.checklist')
     Trello.get('members/me', {'fields': 'username,fullName,email,url,id,avatarUrl', 'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
   };
 
+  TrelloAPI.prototype.boards = function(success, error) {
+    Trello.get('members/me/boards', {'fields': 'name,id,dateLastActivity,closed,prefs', 'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
+  }
+
   this.with = function(token) {
     return new TrelloAPI(token);
   };
