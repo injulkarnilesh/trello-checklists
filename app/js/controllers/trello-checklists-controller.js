@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('chrome.plugin.trello.checklist')
-.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', function(AuthService, TrelloAPIFactory) {
+.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$mdDialog', function(AuthService, TrelloAPIFactory, $mdDialog) {
     var vm = this;
     vm.toolbar = {
         showOptions: false
@@ -24,7 +24,15 @@ angular.module('chrome.plugin.trello.checklist')
     };
 
     vm.logout = function() {
-        AuthService.toLogoutPage();
+        var confirm = $mdDialog.confirm()
+          .title('Logout')
+          .textContent('Are you sure you want to logout?')
+          .ok('Yes')
+          .cancel('No');
+
+        $mdDialog.show(confirm).then(function() {
+            AuthService.toLogoutPage();
+        }, function() { });   
     };
 
 }])

@@ -6,6 +6,7 @@ describe('Unit: TrelloChecklistsController', function() {
     var $controller;
     var scope;
     var token;
+    var mdDialog;
 
 	beforeEach(inject(function(_$controller_, $rootScope) {
         scope = $rootScope.$new();
@@ -26,6 +27,18 @@ describe('Unit: TrelloChecklistsController', function() {
         };
         authService.getToken.and.returnValue(token);
         trelloAPIFactory.with.and.returnValue(trelloAPI);
+        mdDialog = {
+            confirm: jasmine.createSpy(),
+            title: jasmine.createSpy(),
+            textContent: jasmine.createSpy(),
+            ok: jasmine.createSpy(),
+            cancel: jasmine.createSpy(),
+            show: jasmine.createSpy(),
+            then: jasmine.createSpy()
+        }
+        for(var method in mdDialog) {
+            mdDialog[method].and.returnValue(mdDialog);
+        }
         initController();
     }));
 
@@ -84,10 +97,28 @@ describe('Unit: TrelloChecklistsController', function() {
         expect(authService.toLoginPage).toHaveBeenCalled();
     });
 
-    it('should logout with logout page', function() {
+    it('should logout with logout page on confirmation', function() {
         controller.logout();
+        expect(mdDialog.confirm).toHaveBeenCalled();
+        expect(mdDialog.title).toHaveBeenCalledWith('Logout');
+        expect(mdDialog.textContent).toHaveBeenCalledWith('Are you sure you want to logout?');
+        expect(mdDialog.ok).toHaveBeenCalledWith('Yes');
+        expect(mdDialog.cancel).toHaveBeenCalledWith('No');
+        expect(mdDialog.show).toHaveBeenCalled();
 
+        expect(mdDialog.then).toHaveBeenCalled();
+        var okCallBack = mdDialog.then.calls.mostRecent().args[0];
+        okCallBack();
         expect(authService.toLogoutPage).toHaveBeenCalled();
+    });
+
+    it('should not logout if not confirmed', function() {
+        controller.logout();
+        expect(mdDialog.confirm).toHaveBeenCalled();
+        expect(mdDialog.then).toHaveBeenCalled();
+        var cancelCallBack = mdDialog.then.calls.mostRecent().args[1];
+        cancelCallBack();
+        expect(authService.toLogoutPage).not.toHaveBeenCalled();
     });
 
     function someUser() {
@@ -105,7 +136,8 @@ describe('Unit: TrelloChecklistsController', function() {
         controller = $controller('TrelloChecklistsController', {
             $scope: scope,
             AuthService: authService,
-            TrelloAPIFactory: trelloAPIFactory
+            TrelloAPIFactory: trelloAPIFactory,
+            $mdDialog: mdDialog
         });
     }
 
