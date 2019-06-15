@@ -94,6 +94,20 @@ describe('Unit: ShowTrelloBoardsController', function() {
         expect(controller.boards[2]).toEqual(olderBoardClosed);
     });
 
+    it('change board should call callback if registered', function() {
+        var callBack = jasmine.createSpy();
+        controller.selectedBoard = someBoard();
+
+        controller.registerForBoardChange(callBack);
+        controller.changeBoard();
+        
+        expect(callBack).toHaveBeenCalledWith(controller.selectedBoard.id);
+    });
+
+    it('change board should not call callback if not registered', function() {
+        controller.changeBoard();
+    });
+
     function someBoard() {
         return {
             name: 'MyBoard',

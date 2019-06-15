@@ -1,7 +1,7 @@
 <div>
     <md-input-container style="width: 100%">
         <label>Select Board</label>
-        <md-select ng-model="showTrelloBoardsController.selectedBoard">
+        <md-select ng-model="showTrelloBoardsController.selectedBoard" ng-change="showTrelloBoardsController.changeBoard()">
             <md-option ng-repeat="board in showTrelloBoardsController.boards" ng-value="board" ng-disabled="board.closed">
             {{board.name}}
             </md-option>
@@ -10,6 +10,9 @@
 
     <div ng-if="showTrelloBoardsController.selectedBoard">
             {{showTrelloBoardsController.selectedBoard.name}}/{{showTrelloBoardsController.selectedBoard.id}}
+            <show-trello-cards board-id="showTrelloBoardsController.selectedBoard.id"
+                               register-for-board-change="showTrelloBoardsController.registerForBoardChange(callBack)">
+            </show-trello-cards>
     </div>
     
 </div>
