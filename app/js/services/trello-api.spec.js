@@ -31,57 +31,71 @@ describe('Unit: TrelloAPIFactory', function() {
     it('shuould get user details', function() {
         api.userDetails(success, error);
 
-        expect(trello.get).toHaveBeenCalled();
-        var apiArgs = trello.get.calls.mostRecent().args;
-        expect(apiArgs[0]).toBe('members/me');
-        expect(apiArgs[1].fields).toContain('username');
-        expect(apiArgs[1].fields).toContain('fullName');
-        expect(apiArgs[1].fields).toContain('email');
-        expect(apiArgs[1].fields).toContain('url');
-        expect(apiArgs[1].fields).toContain('id');
-        expect(apiArgs[1].fields).toContain('avatarUrl');
-        expect(apiArgs[1].token).toBe(token);
-
-        expectCallBackToHaveBeenCalled(apiArgs[2], success);
-        expectCallBackToHaveBeenCalled(apiArgs[3], error);
+        expectTrelloCalledWith('get')
+            .withPath('members/me')
+            .withFields(['username', 'fullName', 'email', 'url', 'id', 'avatarUrl'])
+            .withToken(token)
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
     });
 
     it('should get boards', function() {
         api.boards(success, error);
 
-        expect(trello.get).toHaveBeenCalled();
-        var apiArgs = trello.get.calls.mostRecent().args;
-        expect(apiArgs[0]).toBe('members/me/boards');
-
-        expect(apiArgs[1].fields).toContain('name');
-        expect(apiArgs[1].fields).toContain('id');
-        expect(apiArgs[1].fields).toContain('dateLastActivity');
-        expect(apiArgs[1].fields).toContain('closed');
-        expect(apiArgs[1].fields).toContain('url');
-        expect(apiArgs[1].token).toBe(token);
-
-        expectCallBackToHaveBeenCalled(apiArgs[2], success);
-        expectCallBackToHaveBeenCalled(apiArgs[3], error); 
+        expectTrelloCalledWith('get')
+            .withPath('members/me/boards')
+            .withFields(['name', 'id', 'dateLastActivity', 'closed', 'url'])
+            .withToken(token)
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
     });
 
     it('should get cards', function() {
         var boardId = 'someBoardId';
+        
         api.cards(boardId, success, error);
 
-        expect(trello.get).toHaveBeenCalled();
-        var apiArgs = trello.get.calls.mostRecent().args;
-        expect(apiArgs[0]).toBe('boards/' + boardId + '/cards');
-
-        expect(apiArgs[1].fields).toContain('id');
-        expect(apiArgs[1].fields).toContain('name');
-        expect(apiArgs[1].fields).toContain('closed');
-        expect(apiArgs[1].fields).toContain('dateLastActivity');
-        expect(apiArgs[1].fields).toContain('url');
-        expect(apiArgs[1].token).toBe(token);
-
-        expectCallBackToHaveBeenCalled(apiArgs[2], success);
-        expectCallBackToHaveBeenCalled(apiArgs[3], error); 
+        expectTrelloCalledWith('get')
+            .withPath('boards/' + boardId + '/cards')
+            .withFields(['id', 'name', 'closed', 'dateLastActivity', 'url'])
+            .withToken(token)
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
     });
+
+    function expectTrelloCalledWith(method) {
+        expect(trello[method]).toHaveBeenCalled();
+        var apiArgs = trello[method].calls.mostRecent().args;
+        
+        return {
+            withPath: function(expectedPath) {
+                expect(apiArgs[0]).toBe(expectedPath);
+                return this;        
+            },
+            withFields: function(expectedFields) {
+                expectFields(apiArgs[1].fields, expectedFields);
+                return this;        
+            },
+            withToken: function(expectedToken) {
+                expect(apiArgs[1].token).toBe(expectedToken);
+                return this;        
+            },
+            withSuccessCallBack: function(expectedSuccess) {
+                expectCallBackToHaveBeenCalled(apiArgs[2], expectedSuccess);
+                return this;
+            },
+            withErrorCallBack: function(expectedError) {
+                expectCallBackToHaveBeenCalled(apiArgs[3], expectedError); 
+                return this;
+            }
+        };
+    }
+
+    function expectFields(fields, expectedFields) {
+        expectedFields.forEach(function(expectField) {
+            expect(fields).toContain(expectField); 
+        });
+    }
 
     function expectCallBackToHaveBeenCalled(callBackArgument, callBack) {
         callBackArgument();
