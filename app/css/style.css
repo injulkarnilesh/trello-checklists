@@ -34,3 +34,12 @@
   margin: 7px
 }
 
+.card-with-no-checklist-items {
+  background-color: #ccc7c7f7;
+  color: #737373;
+}
+
+.no-margin {
+  margin: 0px !important;
+}
+

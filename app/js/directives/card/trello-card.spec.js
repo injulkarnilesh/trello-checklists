@@ -41,13 +41,33 @@ describe('Unit: ShowTrelloBoardsController', function() {
         expect(trelloAPIFactory.with).toHaveBeenCalledWith(token);
         
         controller.$onInit();
-        
+
         expect(trelloAPI.checkLists).toHaveBeenCalled();
         var apiArguments = trelloAPI.checkLists.calls.mostRecent().args;
         expect(apiArguments[0]).toBe(card.id);
         var successCallBack = apiArguments[1];
         successCallBack(expectedCheckLists);
         expect(controller.checkLists).toEqual(expectedCheckLists);
+    });
+
+    it('should count complete and total items of all checlists', function() {
+        var checkLists = [someCheckList(), someCheckList()];
+        controller.$onInit();
+        expect(trelloAPI.checkLists).toHaveBeenCalled();
+        var successCallBack = trelloAPI.checkLists.calls.mostRecent().args[1];
+        successCallBack(checkLists);
+        expect(controller.completeItemCount).toBe(2);
+        expect(controller.totalItemCount).toBe(4);
+    });
+
+    it('should toggle show checklist items', function() {
+        expect(controller.showCheckLists).toBeFalsy();
+        
+        controller.toggleShowCheckLists();
+        expect(controller.showCheckLists).toBeTruthy();
+
+        controller.toggleShowCheckLists();
+        expect(controller.showCheckLists).toBeFalsy();
     });
 
     function someCheckList() {
