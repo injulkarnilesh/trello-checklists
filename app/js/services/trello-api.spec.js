@@ -63,6 +63,18 @@ describe('Unit: TrelloAPIFactory', function() {
             .withErrorCallBack(error);
     });
 
+    it('should get card checklists', function() {
+        var cardId = 'cardId';
+
+        api.checkLists(cardId, success, error);
+
+        expectTrelloCalledWith('get')
+            .withPath('cards/' + cardId + '/checklists')
+            .withToken(token)
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
+    });
+
     function expectTrelloCalledWith(method) {
         expect(trello[method]).toHaveBeenCalled();
         var apiArgs = trello[method].calls.mostRecent().args;

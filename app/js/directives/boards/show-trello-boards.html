@@ -9,10 +9,9 @@
     </md-input-container>
 
     <div ng-if="showTrelloBoardsController.selectedBoard">
-            {{showTrelloBoardsController.selectedBoard.name}}/{{showTrelloBoardsController.selectedBoard.id}}
-            <show-trello-cards board-id="showTrelloBoardsController.selectedBoard.id"
-                               register-for-board-change="showTrelloBoardsController.registerForBoardChange(callBack)">
-            </show-trello-cards>
+        <show-trello-cards board-id="showTrelloBoardsController.selectedBoard.id"
+                            register-for-board-change="showTrelloBoardsController.registerForBoardChange(callBack)">
+        </show-trello-cards>
     </div>
     
 </div>
