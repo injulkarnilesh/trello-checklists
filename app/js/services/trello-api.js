@@ -31,6 +31,10 @@ angular.module('chrome.plugin.trello.checklist')
     Trello.get('cards/' + cardId + '/checklists', {'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
   }
 
+  TrelloAPI.prototype.toggleCheckListItem = function(cardId, checkListItemId, state, success, error) {
+    Trello.put('cards/' + cardId + '/checkItem/' + checkListItemId, {'token': this.token, 'state': state}, this.callBackWithDigest(success), this.callBackWithDigest(error));
+  }
+
   this.with = function(token) {
     return new TrelloAPI(token);
   };

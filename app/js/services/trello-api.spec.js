@@ -12,8 +12,9 @@ describe('Unit: TrelloAPIFactory', function() {
         
         trello = window.Trello;
         spyOn(trello, ['get']);
+        spyOn(trello, ['put']);
 
-        module(function ($provide) {
+        module(function($provide) {
             $provide.value('$timeout', timeout);
         });
 
@@ -75,6 +76,21 @@ describe('Unit: TrelloAPIFactory', function() {
             .withErrorCallBack(error);
     });
 
+    it('should complete checklist item', function() {
+        var cardId = 'cardId';
+        var checkListItemId = 'itemId';
+        var state = 'complete';
+
+        api.toggleCheckListItem(cardId, checkListItemId, state, success, error);
+
+        expectTrelloCalledWith('put')
+            .withPath('cards/' + cardId + '/checkItem/' + checkListItemId)
+            .withToken(token)
+            .withParam('state', 'complete')
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
+    });
+
     function expectTrelloCalledWith(method) {
         expect(trello[method]).toHaveBeenCalled();
         var apiArgs = trello[method].calls.mostRecent().args;
@@ -86,6 +102,10 @@ describe('Unit: TrelloAPIFactory', function() {
             },
             withFields: function(expectedFields) {
                 expectFields(apiArgs[1].fields, expectedFields);
+                return this;        
+            },
+            withParam: function(param, paramValue) {
+                expect(apiArgs[1][param]).toBe(paramValue);
                 return this;        
             },
             withToken: function(expectedToken) {

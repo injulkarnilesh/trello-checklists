@@ -8,6 +8,9 @@ describe('Unit: ShowTrelloBoardsController', function() {
     var token;
     var binding;
     var card;
+    var INCOMPLETE_STATE = 'incomplete';
+    var COMPLETE_STATE = 'complete';
+
 
 	beforeEach(inject(function(_$controller_, $rootScope) {
         scope = $rootScope.$new();
@@ -20,7 +23,8 @@ describe('Unit: ShowTrelloBoardsController', function() {
             with: jasmine.createSpy()
         };
         trelloAPI = {
-            checkLists: jasmine.createSpy()  
+            checkLists: jasmine.createSpy(),
+            toggleCheckListItem: jasmine.createSpy()
         };
         card = someCard();
         binding = {
@@ -70,18 +74,91 @@ describe('Unit: ShowTrelloBoardsController', function() {
         expect(controller.showCheckLists).toBeFalsy();
     });
 
+    it('should toggle checklist item state from complete to incomplete', function() {
+        controller.checkLists = [someCheckList()];
+        var checkListItem = controller.checkLists[0].checkItems[0];
+
+        controller.toggleItem(checkListItem);
+
+        expect(trelloAPI.toggleCheckListItem).toHaveBeenCalled();
+        var apiArgs = trelloAPI.toggleCheckListItem.calls.mostRecent().args;
+        expect(apiArgs[0]).toBe(card.id);
+        expect(apiArgs[1]).toBe(checkListItem.id);
+        expect(apiArgs[2]).toBe(INCOMPLETE_STATE);
+        var successCallBack = apiArgs[3];
+        successCallBack();
+        expect(checkListItem.state).toBe(INCOMPLETE_STATE);
+        expect(controller.completeItemCount).toBe(0);
+    });
+
+    it('should toggle checklist item state from incomplete to complete', function() {
+        controller.checkLists = [someCheckList()];
+        var checkListItem = controller.checkLists[0].checkItems[1];
+
+        controller.toggleItem(checkListItem);
+
+        expect(trelloAPI.toggleCheckListItem).toHaveBeenCalled();
+        var apiArgs = trelloAPI.toggleCheckListItem.calls.mostRecent().args;
+        expect(apiArgs[0]).toBe(card.id);
+        expect(apiArgs[1]).toBe(checkListItem.id);
+        expect(apiArgs[2]).toBe(COMPLETE_STATE);
+        var successCallBack = apiArgs[3];
+        successCallBack();
+        expect(checkListItem.state).toBe(COMPLETE_STATE);
+        expect(controller.completeItemCount).toBe(2);
+    });
+
+    it('should check if checklist item is complete', function() {
+        var checkList = someCheckList();
+        var completeItem = checkList.checkItems[0];
+        var inCompleteItem = checkList.checkItems[1];
+
+        expect(controller.isComplete(completeItem)).toBeTruthy();
+        expect(controller.isComplete(inCompleteItem)).toBeFalsy();
+    });
+
+    it('should not have items if no checklists set', function() {
+        expect(controller.hasItems()).toBeFalsy();
+    });
+
+    it('should not have items if empty checklists', function() {
+        controller.checkLists = [];
+        
+        expect(controller.hasItems()).toBeFalsy();
+    });
+
+    it('should not have items if has checklists but no items', function() {
+        var emptyCheckList = someCheckList();
+        emptyCheckList.checkItems = []
+        controller.checkLists = emptyCheckList;
+        
+        expect(controller.hasItems()).toBeFalsy();
+    });
+
+    it('should have items if has checklists with items', function() {
+        var checkList = someCheckList();
+        controller.checkLists = checkList;
+        
+        controller.$onInit();
+        expect(trelloAPI.checkLists).toHaveBeenCalled();
+        var successCallBack = trelloAPI.checkLists.calls.mostRecent().args[1];
+        successCallBack([checkList]);
+        
+        expect(controller.hasItems()).toBeTruthy();
+    });
+
     function someCheckList() {
         return {
             'id': 'checkListId',
             'name': 'SampleCheckList',
             'checkItems': [
                 {
-                'state': 'complete',
+                'state': COMPLETE_STATE,
                 'id': 'checkItemId1',
                 'name': 'CheckItem1'
                 },
                 {
-                'state': 'incomplete',
+                'state': INCOMPLETE_STATE,
                 'id': 'checkItemId2',
                 'name': 'CheckItem2'
                 }
