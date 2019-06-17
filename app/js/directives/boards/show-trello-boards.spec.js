@@ -83,7 +83,6 @@ describe('Unit: ShowTrelloBoardsController', function() {
         oldestBoard.dateLastActivity = '2011-06-15';
         oldestBoard.closed = false;
 
-        
         var boardsResponse = [olderBoardClosed, latestBoard, oldestBoard];
     
         expect(trelloAPI.boards).toHaveBeenCalled();
@@ -108,6 +107,30 @@ describe('Unit: ShowTrelloBoardsController', function() {
         controller.changeBoard();
     });
 
+    it('should set background color if preset', function() {
+        var board = someBoard();
+        var color = 'color';
+        board.prefs.backgroundColor = color;
+        controller.selectedBoard = board;
+
+        controller.changeBoard();
+
+        expect(controller.backgroundColor).toBe(color);
+        expect(controller.backgroundImage).toBeUndefined();
+    });
+
+    it('should set background image if present', function() {
+        var board = someBoard();
+        var imageUrl = 'url';
+        board.prefs.backgroundImage = imageUrl;
+        controller.selectedBoard = board;
+
+        controller.changeBoard();
+
+        expect(controller.backgroundColor).toBeUndefined()
+        expect(controller.backgroundImage).toBe(imageUrl);
+    });
+
     function someBoard() {
         return {
             name: 'MyBoard',
@@ -115,9 +138,7 @@ describe('Unit: ShowTrelloBoardsController', function() {
             closed: true,
             id: 'someId',
             url: 'trelloUrl',
-            prefs: {
-                backgroundColor: 'HEXA-background'
-            }
+            prefs: { }
         }
     };
 

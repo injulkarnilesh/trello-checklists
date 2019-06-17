@@ -20,7 +20,7 @@ angular.module('chrome.plugin.trello.checklist')
   };
 
   TrelloAPI.prototype.boards = function(success, error) {
-    Trello.get('members/me/boards', {'fields': 'name,id,dateLastActivity,closed,url', 'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
+    Trello.get('members/me/boards', {'fields': 'name,id,dateLastActivity,closed,url,prefs', 'token': this.token}, this.callBackWithDigest(success), this.callBackWithDigest(error));
   }
 
   TrelloAPI.prototype.cards = function(boardId, success, error) {

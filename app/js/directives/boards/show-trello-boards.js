@@ -17,6 +17,9 @@ angular.module('chrome.plugin.trello.checklist')
     var token = AuthService.getToken();
     var trelloAPI = TrelloAPIFactory.with(token);
 
+    vm.backgroundColor = '';
+    vm.backgroundImage = '';
+
     trelloAPI.boards(function(boards) {
         vm.boards = boards.sort(function(f, s) {
             return (f.dateLastActivity < s.dateLastActivity)? 1 : (f.dateLastActivity > s.dateLastActivity)? -1 : 0;
@@ -29,10 +32,20 @@ angular.module('chrome.plugin.trello.checklist')
         if(boardChangedCallBack) {
             boardChangedCallBack(vm.selectedBoard.id);
         }
+        vm.backgroundColor = getBackGroundColor();
+        vm.backgroundImage = getBackGroundImage();
     };
 
     vm.registerForBoardChange = function(callBack) {
         boardChangedCallBack = callBack;
+    };
+
+    function getBackGroundColor() {
+        return vm.selectedBoard? vm.selectedBoard.prefs.backgroundColor : '';
+    };
+
+    function getBackGroundImage() {
+        return vm.selectedBoard ? vm.selectedBoard.prefs.backgroundImage: '';
     };
 
 }]);

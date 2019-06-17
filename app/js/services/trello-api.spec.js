@@ -45,7 +45,7 @@ describe('Unit: TrelloAPIFactory', function() {
 
         expectTrelloCalledWith('get')
             .withPath('members/me/boards')
-            .withFields(['name', 'id', 'dateLastActivity', 'closed', 'url'])
+            .withFields(['name', 'id', 'dateLastActivity', 'closed', 'url', 'prefs'])
             .withToken(token)
             .withSuccessCallBack(success)
             .withErrorCallBack(error);

@@ -1,4 +1,5 @@
-<div>
+<div ng-style="{ 'background-color': showTrelloBoardsController.backgroundColor, 
+                'background-image': 'url(' + showTrelloBoardsController.backgroundImage + ')', 'background-repeat': 'no-repeat', 'background-size': '100% 100%' }">
     <md-input-container style="width: 100%">
         <label>Select Board</label>
         <md-select ng-model="showTrelloBoardsController.selectedBoard" ng-change="showTrelloBoardsController.changeBoard()">
