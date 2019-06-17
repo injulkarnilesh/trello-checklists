@@ -66,5 +66,6 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
     .icon('clear', 'images/icons/clear.svg', 24)
     .icon('expand_less', 'images/icons/expand_less.svg', 24)
     .icon('expand_more', 'images/icons/expand_more.svg', 24)
+    .icon('launch', 'images/icons/launch.svg', 24)
     .icon('save', 'images/icons/save.svg', 24);
 });

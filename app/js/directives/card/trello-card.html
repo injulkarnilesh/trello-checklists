@@ -17,6 +17,9 @@
                 <md-button class="md-icon-button" aria-label="toggle">
                     <md-icon md-svg-icon="star"></md-icon>
                 </md-button>
+                <md-button class="md-icon-button" aria-label="toggle" ng-click="trelloCardController.openCardInTrello()">
+                    <md-icon md-svg-icon="launch"></md-icon>
+                </md-button>
             </md-card-icon-actions>
         </md-card-actions>
         <md-card-content ng-if="trelloCardController.showCheckLists">

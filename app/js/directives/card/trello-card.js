@@ -43,11 +43,15 @@ angular.module('chrome.plugin.trello.checklist')
 
     vm.isComplete = function(item) {
         return item.state === COMPLETE_STATE;
-    }
+    };
+
+    vm.openCardInTrello = function() {
+        chrome.tabs.create({ url: vm.card.url });
+    };
 
     vm.hasItems = function(){
         return vm.checkLists && vm.checkLists.length && vm.totalItemCount;
-    }
+    };
 
     function countComplteItems() {
         if(vm.checkLists && vm.checkLists.length) {
