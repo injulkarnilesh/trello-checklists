@@ -15,7 +15,18 @@
         <div ng-if="vm.isLoggedIn">
           <div ng-include="'app/views/toolbar.html'"></div>
           <md-divider></md-divider>
-          <show-trello-boards></show-trello-boards>
+          <md-tabs md-selected="vm.tabs.selectedIndex" md-stretch-tabs="always" md-dynamic-height>
+              <md-tab label="Favorites">
+                <md-content class="md-padding">
+                  Favorites
+                </md-content>
+              </md-tab>
+              <md-tab label="All Cards">
+                <md-content class="md-padding">
+                    <show-trello-boards></show-trello-boards>
+                </md-content>
+              </md-tab>
+          </md-tabs>
         </div>
       </md-content>
     </div>
