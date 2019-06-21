@@ -15,10 +15,10 @@
         <div ng-if="vm.isLoggedIn">
           <div ng-include="'app/views/toolbar.html'"></div>
           <md-divider></md-divider>
-          <md-tabs md-selected="vm.tabs.selectedIndex" md-stretch-tabs="always" md-dynamic-height>
-              <md-tab label="Favorites">
+          <md-tabs md-stretch-tabs="always" md-dynamic-height>
+              <md-tab label="Favorites" md-on-select="vm.reloadFavorites()">
                 <md-content class="md-padding">
-                  Favorites
+                    <show-favorite-cards register-reload-favorites-call-back="vm.registerReloadFavoritesCallBack(callBack)"></show-favorite-cards>
                 </md-content>
               </md-tab>
               <md-tab label="All Cards">
@@ -46,6 +46,7 @@
     <script type="text/javascript" src="app/js/controllers/trello-checklists-controller.js"></script>
     <script type="text/javascript" src="app/js/directives/boards/show-trello-boards.js"></script>
     <script type="text/javascript" src="app/js/directives/cards/show-trello-cards.js"></script>
+    <script type="text/javascript" src="app/js/directives/cards/show-favorite-cards.js"></script>
     <script type="text/javascript" src="app/js/directives/card/trello-card.js"></script>
   </body>
 </html>

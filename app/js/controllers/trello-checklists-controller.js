@@ -3,6 +3,8 @@
 angular.module('chrome.plugin.trello.checklist')
 .controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$mdDialog', function(AuthService, TrelloAPIFactory, $mdDialog) {
     var vm = this;
+    var reloadFavoritesCallBack;
+
     vm.toolbar = {
         showOptions: false
     };
@@ -34,5 +36,15 @@ angular.module('chrome.plugin.trello.checklist')
             AuthService.toLogoutPage();
         }, function() { });   
     };
+
+    vm.reloadFavorites = function() {
+        if(reloadFavoritesCallBack) {
+            reloadFavoritesCallBack();
+        }
+    };
+
+    vm.registerReloadFavoritesCallBack = function(callBack) {
+        reloadFavoritesCallBack = callBack;
+    }
 
 }])

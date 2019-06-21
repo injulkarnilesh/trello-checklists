@@ -121,6 +121,17 @@ describe('Unit: TrelloChecklistsController', function() {
         expect(authService.toLogoutPage).not.toHaveBeenCalled();
     });
 
+    it('should register reload favorites callBack', function() {
+        var callBack = jasmine.createSpy();
+        
+        controller.reloadFavorites();
+        expect(callBack).not.toHaveBeenCalled();
+
+        controller.registerReloadFavoritesCallBack(callBack);
+        controller.reloadFavorites();
+        expect(callBack).toHaveBeenCalled();
+    });
+
     function someUser() {
         return {
             'id': '2342',
