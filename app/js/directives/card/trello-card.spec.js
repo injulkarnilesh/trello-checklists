@@ -2,12 +2,14 @@ beforeEach(module('chrome.plugin.trello.checklist'));
 
 describe('Unit: ShowTrelloBoardsController', function() {
 	var controller;
-    var authService, trelloAPIFactory, trelloAPI;
+    var authService, trelloAPIFactory, trelloAPI, favoriteCardsService;
     var $controller;
     var scope;
     var token;
     var binding;
     var card;
+    var favoriteCards;
+    var reloadFavouriteCards;
     var INCOMPLETE_STATE = 'incomplete';
     var COMPLETE_STATE = 'complete';
 
@@ -16,19 +18,28 @@ describe('Unit: ShowTrelloBoardsController', function() {
         scope = $rootScope.$new();
         $controller = _$controller_;
         token = 'someToken';
+        favoriteCards = ['favoriteCard'];
         authService = {
             getToken: jasmine.createSpy()
         };
         trelloAPIFactory = {
             with: jasmine.createSpy()
         };
+        favoriteCardsService = {
+            favoriteCard: jasmine.createSpy(),
+            unFavoriteCard: jasmine.createSpy()
+        }
         trelloAPI = {
             checkLists: jasmine.createSpy(),
             toggleCheckListItem: jasmine.createSpy()
         };
+        reloadFavouriteCards = jasmine.createSpy();
+
         card = someCard();
         binding = {
-            card: card
+            card: card,
+            reloadFavouriteCards: reloadFavouriteCards,
+            favoriteCards: favoriteCards
         };
         authService.getToken.and.returnValue(token);
         trelloAPIFactory.with.and.returnValue(trelloAPI);
@@ -37,6 +48,10 @@ describe('Unit: ShowTrelloBoardsController', function() {
 
     it('should be defined', function() {
         expect(controller).toBeDefined();
+    });
+
+    it('should not be favorite updating', function() {
+        expect(controller.favoriteUpdating).toBeFalsy();
     });
 
     it('should load checkLists', function() {
@@ -147,6 +162,46 @@ describe('Unit: ShowTrelloBoardsController', function() {
         expect(controller.hasItems()).toBeTruthy();
     });
 
+    it('should favorite card', function() {
+        controller.favoriteIt();
+
+        expect(controller.favoriteUpdating).toBeTruthy();
+        
+        expect(favoriteCardsService.favoriteCard).toHaveBeenCalled();
+        var args = favoriteCardsService.favoriteCard.calls.mostRecent().args;
+        expect(args[0]).toBe(controller.card.id);
+        
+        var callBack = args[1];
+        callBack();
+        expect(controller.favoriteUpdating).toBeFalsy();
+        expect(reloadFavouriteCards).toHaveBeenCalled();
+    });
+
+    it('should un favorite card', function() {
+        controller.unFavoriteIt();
+
+        expect(controller.favoriteUpdating).toBeTruthy();
+        
+        expect(favoriteCardsService.unFavoriteCard).toHaveBeenCalled();
+        var args = favoriteCardsService.unFavoriteCard.calls.mostRecent().args;
+        expect(args[0]).toBe(controller.card.id);
+        
+        var callBack = args[1];
+        callBack();
+        expect(controller.favoriteUpdating).toBeFalsy();
+        expect(reloadFavouriteCards).toHaveBeenCalled();
+    });
+
+    it('should check if is favorite card', function() {
+        expect(controller.isFavorite()).toBeFalsy();
+        
+        controller.favoriteCards.push(controller.card.id);
+        expect(controller.isFavorite()).toBeTruthy();
+        
+        controller.favoriteCards = undefined;
+        expect(controller.isFavorite()).toBeFalsy();
+    });
+
     function someCheckList() {
         return {
             'id': 'checkListId',
@@ -180,7 +235,8 @@ describe('Unit: ShowTrelloBoardsController', function() {
         controller = $controller('TrelloCardController', {
             $scope: scope,
             AuthService: authService,
-            TrelloAPIFactory: trelloAPIFactory
+            TrelloAPIFactory: trelloAPIFactory,
+            FavoriteCardsService: favoriteCardsService
         }, binding);
     }
 

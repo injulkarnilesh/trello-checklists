@@ -6,8 +6,8 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
     .primaryPalette('blue');
 })
 .service('StorageService', [function() {
-
-  function getStorage(key, callback) {
+  
+  this.getStorage = function(key, callback) {
     chrome.storage.sync.get(key, function(data) {
       if(callback) {
         callback(data[key]);
@@ -15,7 +15,7 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
     });
   }
   
-  function setStorage(key, objects, callback) {
+  this.setStorage = function(key, objects, callback) {
     var objectList = {};
     objectList[key] = objects;
     chrome.storage.sync.set(objectList, function() {
@@ -60,7 +60,9 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
   $mdIconProvider
     .icon('dots-vertical', 'images/icons/dots-vertical.svg', 24)
     .icon('dots-horizontal', 'images/icons/dots-horizontal.svg', 24)
-    .icon('star', 'images/icons/star.svg', 24)
+    .icon('stared', 'images/icons/star.svg', 24)
+    .icon('star_half', 'images/icons/star_half.svg', 24)
+    .icon('star', 'images/icons/star_border.svg', 24)
     .icon('close', 'images/icons/close.svg', 24)
     .icon('open', 'images/icons/open-in-new.svg', 12)
     .icon('clear', 'images/icons/clear.svg', 24)

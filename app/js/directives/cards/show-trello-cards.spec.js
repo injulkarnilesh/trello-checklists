@@ -1,8 +1,8 @@
 beforeEach(module('chrome.plugin.trello.checklist'));
 
-describe('Unit: ShowTrelloBoardsController', function() {
+describe('Unit: ShowTrelloCardsController', function() {
 	var controller;
-    var authService, trelloAPIFactory, trelloAPI;
+    var authService, trelloAPIFactory, trelloAPI, favoriteCardsService;
     var $controller;
     var scope;
     var token, boardId;
@@ -22,6 +22,9 @@ describe('Unit: ShowTrelloBoardsController', function() {
         trelloAPI = {
             cards: jasmine.createSpy()
         };
+        favoriteCardsService = {
+            getFavoriteCards: jasmine.createSpy()
+        }
         authService.getToken.and.returnValue(token);
         trelloAPIFactory.with.and.returnValue(trelloAPI);
         boardId = 'someBoardId';
@@ -53,6 +56,28 @@ describe('Unit: ShowTrelloBoardsController', function() {
         var successCallBack = apiArguments[1];
         successCallBack(expectedCards);
         expect(controller.cards).toEqual(expectedCards);
+    });
+
+    it('should load favorite cards on init', function() {
+        var favoriteCards = ['cardId'];
+        
+        controller.$onInit();
+
+        expect(favoriteCardsService.getFavoriteCards).toHaveBeenCalled();
+        var callBack = favoriteCardsService.getFavoriteCards.calls.mostRecent().args[0];
+        callBack(favoriteCards);
+        expect(controller.favoriteCards).toBe(favoriteCards);
+    });
+
+    it('should load favorite cards on request', function() {
+        var favoriteCards = ['cardId'];
+        
+        controller.loadFavoriteCards();
+
+        expect(favoriteCardsService.getFavoriteCards).toHaveBeenCalled();
+        var callBack = favoriteCardsService.getFavoriteCards.calls.mostRecent().args[0];
+        callBack(favoriteCards);
+        expect(controller.favoriteCards).toBe(favoriteCards);
     });
 
     it('should order cards by last activity date descending', function() {
@@ -96,7 +121,8 @@ describe('Unit: ShowTrelloBoardsController', function() {
         controller = $controller('ShowTrelloCardsController', {
             $scope: scope,
             AuthService: authService,
-            TrelloAPIFactory: trelloAPIFactory
+            TrelloAPIFactory: trelloAPIFactory,
+            FavoriteCardsService: favoriteCardsService
         }, binding);
     }
 
