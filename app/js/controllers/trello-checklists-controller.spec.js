@@ -123,6 +123,7 @@ describe('Unit: TrelloChecklistsController', function() {
 
     it('should register reload favorites callBack', function() {
         var callBack = jasmine.createSpy();
+        var anotherCallBack = jasmine.createSpy();
         
         controller.reloadFavorites();
         expect(callBack).not.toHaveBeenCalled();
@@ -130,6 +131,11 @@ describe('Unit: TrelloChecklistsController', function() {
         controller.registerReloadFavoritesCallBack(callBack);
         controller.reloadFavorites();
         expect(callBack).toHaveBeenCalled();
+
+        controller.registerReloadFavoritesCallBack(anotherCallBack);
+        controller.reloadFavorites();
+        expect(anotherCallBack).toHaveBeenCalled();
+        expect(callBack).toHaveBeenCalledTimes(2);
     });
 
     function someUser() {

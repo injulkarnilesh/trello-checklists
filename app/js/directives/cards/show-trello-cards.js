@@ -7,7 +7,8 @@ angular.module('chrome.plugin.trello.checklist')
         replace: true,
         scope: {
             boardId: '=',
-            registerForBoardChange: '&'
+            registerForBoardChange: '&',
+            registerReloadFavoritesCallBack: '&'
         }, 
         bindToController: true,
         controllerAs: 'showTrelloCardsController',
@@ -23,6 +24,7 @@ angular.module('chrome.plugin.trello.checklist')
     vm.$onInit = function() {
         loadCards(vm.boardId);
         vm.registerForBoardChange({callBack: loadCards});
+        vm.registerReloadFavoritesCallBack({callBack: vm.loadFavoriteCards})
         vm.loadFavoriteCards();
     };
 

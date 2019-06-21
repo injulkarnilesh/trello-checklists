@@ -13,19 +13,26 @@ angular.module('chrome.plugin.trello.checklist')
         controller: 'ShowFavoriteCardsController',
         templateUrl: 'app/js/directives/cards/show-favorite-cards.html'
     };  
-}).controller('ShowFavoriteCardsController', ['FavoriteCardsService', function(FavoriteCardsService) {
+}).controller('ShowFavoriteCardsController', ['FavoriteCardsService', 'AuthService', 'TrelloAPIFactory', function(FavoriteCardsService, AuthService, TrelloAPIFactory) {
     var vm = this;
+    vm.favoriteCardIds = [];
     vm.favoriteCards = [];
-
+    var trelloAPI = TrelloAPIFactory.with(AuthService.getToken());
 
     vm.$onInit = function() {
-        loadFavoriteCards();
-        vm.registerReloadFavoritesCallBack({callBack: loadFavoriteCards});
+        vm.loadFavoriteCards();
+        vm.registerReloadFavoritesCallBack({callBack: vm.loadFavoriteCards});
     };
 
-    function loadFavoriteCards() {
-        FavoriteCardsService.getFavoriteCards(function(cards) {
-            vm.favoriteCards = cards? cards: []; 
+    vm.loadFavoriteCards = function() {
+        FavoriteCardsService.getFavoriteCards(function(cardIds) {
+            vm.favoriteCardIds = cardIds? cardIds: [];
+            vm.favoriteCards = []; 
+            vm.favoriteCardIds.forEach(function(cardId, index) {
+                trelloAPI.card(cardId, function(card) {
+                    vm.favoriteCards[index] = card; 
+                });
+            })
         });
     }
     

@@ -64,6 +64,19 @@ describe('Unit: TrelloAPIFactory', function() {
             .withErrorCallBack(error);
     });
 
+    it('should get card', function() {
+        var cardId = 'someCardId';
+        
+        api.card(cardId, success, error);
+
+        expectTrelloCalledWith('get')
+            .withPath('cards/' + cardId)
+            .withFields(['id', 'name', 'closed', 'dateLastActivity', 'url'])
+            .withToken(token)
+            .withSuccessCallBack(success)
+            .withErrorCallBack(error);
+    });
+
     it('should get card checklists', function() {
         var cardId = 'cardId';
 

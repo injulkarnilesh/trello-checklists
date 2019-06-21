@@ -4,6 +4,9 @@ angular.module('chrome.plugin.trello.checklist')
 .directive('showTrelloBoards', function() {
     return {
         restrict: 'E',
+        scope: {
+            registerReloadFavoritesCallBack: '&'
+        },
         replace: true,
         controllerAs: 'showTrelloBoardsController',
         controller: 'ShowTrelloBoardsController',

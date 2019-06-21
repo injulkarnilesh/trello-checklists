@@ -7,7 +7,7 @@ describe('Unit: ShowTrelloCardsController', function() {
     var scope;
     var token, boardId;
     var binding;
-    var registerForBoardChange;
+    var registerForBoardChange, registerReloadFavoritesCallBack;
 
 	beforeEach(inject(function(_$controller_, $rootScope) {
         scope = $rootScope.$new();
@@ -29,9 +29,11 @@ describe('Unit: ShowTrelloCardsController', function() {
         trelloAPIFactory.with.and.returnValue(trelloAPI);
         boardId = 'someBoardId';
         registerForBoardChange = jasmine.createSpy(); 
+        registerReloadFavoritesCallBack = jasmine.createSpy();
         binding = {
             'boardId': boardId,
-            'registerForBoardChange': registerForBoardChange
+            'registerForBoardChange': registerForBoardChange,
+            'registerReloadFavoritesCallBack': registerReloadFavoritesCallBack
         };
         initController();
     }));
@@ -105,6 +107,15 @@ describe('Unit: ShowTrelloCardsController', function() {
         expect(trelloAPI.cards).toHaveBeenCalled();
         var apiArguments = trelloAPI.cards.calls.mostRecent().args;
         expect(apiArguments[0]).toBe(someOtherBoardId);
+    });
+
+    it('should register for reload favorite cards', function() {
+        controller.$onInit();
+
+        expect(registerReloadFavoritesCallBack).toHaveBeenCalled();
+        var callBackRegistered = registerReloadFavoritesCallBack.calls.mostRecent().args[0].callBack;
+        callBackRegistered();
+        expect(favoriteCardsService.getFavoriteCards).toHaveBeenCalled();
     });
 
     function someCard() {

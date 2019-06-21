@@ -1,5 +1,8 @@
 <div>
-        <div ng-repeat="cardId in showFavoriteCardsController.favoriteCards">
-                {{cardId}}
+        <div ng-repeat="card in showFavoriteCardsController.favoriteCards track by card.id">
+                <trello-card card="card" ng-if="card" 
+                        favorite-cards="showFavoriteCardsController.favoriteCardIds"
+                        reload-favourite-cards="showFavoriteCardsController.loadFavoriteCards()">
+                </trello-card>
         </div>
 </div>

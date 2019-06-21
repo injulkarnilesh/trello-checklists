@@ -11,7 +11,8 @@
 
     <div ng-if="showTrelloBoardsController.selectedBoard">
         <show-trello-cards board-id="showTrelloBoardsController.selectedBoard.id"
-                            register-for-board-change="showTrelloBoardsController.registerForBoardChange(callBack)">
+                            register-for-board-change="showTrelloBoardsController.registerForBoardChange(callBack)"
+                            register-reload-favorites-call-back="showTrelloBoardsController.registerReloadFavoritesCallBack({'callBack': callBack})">
         </show-trello-cards>
     </div>
     

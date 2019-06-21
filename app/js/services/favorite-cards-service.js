@@ -26,6 +26,8 @@ angular.module('chrome.plugin.trello.checklist')
                 StorageService.setStorage(FAVORITE_CARDS, storedCards, function() {
                     callBack();
                 });
+            } else {
+                callBack();
             }
         });
     };

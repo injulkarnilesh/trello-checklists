@@ -21,9 +21,9 @@
                     <show-favorite-cards register-reload-favorites-call-back="vm.registerReloadFavoritesCallBack(callBack)"></show-favorite-cards>
                 </md-content>
               </md-tab>
-              <md-tab label="All Cards">
+              <md-tab label="All Cards" md-on-select="vm.reloadFavorites()">
                 <md-content class="md-padding">
-                    <show-trello-boards></show-trello-boards>
+                    <show-trello-boards register-reload-favorites-call-back="vm.registerReloadFavoritesCallBack(callBack)"></show-trello-boards>
                 </md-content>
               </md-tab>
           </md-tabs>

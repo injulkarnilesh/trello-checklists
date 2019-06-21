@@ -3,7 +3,7 @@
 angular.module('chrome.plugin.trello.checklist')
 .controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$mdDialog', function(AuthService, TrelloAPIFactory, $mdDialog) {
     var vm = this;
-    var reloadFavoritesCallBack;
+    var reloadFavoritesCallBacks = [];
 
     vm.toolbar = {
         showOptions: false
@@ -38,13 +38,15 @@ angular.module('chrome.plugin.trello.checklist')
     };
 
     vm.reloadFavorites = function() {
-        if(reloadFavoritesCallBack) {
-            reloadFavoritesCallBack();
+        if(reloadFavoritesCallBacks && reloadFavoritesCallBacks.length) {
+            reloadFavoritesCallBacks.forEach(function(callBack) {
+                callBack();
+            })
         }
     };
 
     vm.registerReloadFavoritesCallBack = function(callBack) {
-        reloadFavoritesCallBack = callBack;
+        reloadFavoritesCallBacks.push(callBack);
     }
 
 }])
