@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ngMessages'])
+angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ngMessages', 'ngMaterialDatePicker'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue');
