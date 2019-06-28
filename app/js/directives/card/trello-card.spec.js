@@ -2,7 +2,7 @@ beforeEach(module('chrome.plugin.trello.checklist'));
 
 describe('Unit: ShowTrelloBoardsController', function() {
 	var controller;
-    var authService, trelloAPIFactory, trelloAPI, favoriteCardsService;
+    var authService, trelloAPIFactory, trelloAPI, favoriteCardsService, mdcDateTimeDialog, NotificationService;
     var $controller;
     var scope;
     var token;
@@ -12,6 +12,7 @@ describe('Unit: ShowTrelloBoardsController', function() {
     var reloadFavouriteCards;
     var INCOMPLETE_STATE = 'incomplete';
     var COMPLETE_STATE = 'complete';
+    var mdcShowPromise;
 
 
 	beforeEach(inject(function(_$controller_, $rootScope) {
@@ -34,6 +35,20 @@ describe('Unit: ShowTrelloBoardsController', function() {
             toggleCheckListItem: jasmine.createSpy()
         };
         reloadFavouriteCards = jasmine.createSpy();
+        NotificationService = {
+            createReminder: jasmine.createSpy(),
+            removeReminder: jasmine.createSpy(),
+            getReminders: jasmine.createSpy(),
+            readableDate: jasmine.createSpy(),
+            isDateInFurure: jasmine.createSpy()
+        };
+        mdcDateTimeDialog = {
+            show: jasmine.createSpy()
+        }
+        mdcShowPromise = {
+            then: jasmine.createSpy()
+        };
+        mdcDateTimeDialog.show.and.returnValue(mdcShowPromise);
 
         card = someCard();
         binding = {
@@ -202,6 +217,80 @@ describe('Unit: ShowTrelloBoardsController', function() {
         expect(controller.isFavorite()).toBeFalsy();
     });
 
+    describe('reminders', function() {
+        var item;
+        var dateTime;
+        var dateString;
+
+        beforeEach(function() {
+            var checkList = someCheckList();
+            item = checkList.checkItems[0];
+            dateTime = new Date();
+            dateString = 'some date';
+        });
+
+        it('should be loaded on init', function() {
+            var reminders = someReminders();
+    
+            controller.$onInit();
+            
+            expect(NotificationService.getReminders).toHaveBeenCalled();
+            var remindersCallBack = NotificationService.getReminders.calls.mostRecent().args[0];
+            remindersCallBack(reminders);
+            expect(controller.reminders).toBe(reminders);
+        })
+
+        it('should be set', function() {
+            controller.setReminder(item);
+
+            expect(mdcDateTimeDialog.show).toHaveBeenCalled();
+            var dialogOptions = mdcDateTimeDialog.show.calls.mostRecent().args[0];
+            expect(dialogOptions.minDate).toBeDefined();
+            expect(dialogOptions.date).toBe(true);
+            expect(dialogOptions.time).toBe(true); 
+            expect(dialogOptions.showIcon).toBe(true);
+            expect(dialogOptions.autoOk).toBe(true); 
+            expect(dialogOptions.shortTime).toBe(true);
+            
+            expect(mdcShowPromise.then).toHaveBeenCalled();
+            var dateSelectionCallBack = mdcShowPromise.then.calls.mostRecent().args[0];
+            
+            dateSelectionCallBack(dateTime);
+            expect(NotificationService.createReminder).toHaveBeenCalled();
+            var reminderOptions = NotificationService.createReminder.calls.mostRecent().args;
+            expect(reminderOptions[0]).toBe(item.id);
+            expect(reminderOptions[1]).toBe(card.name + ':' + item.name);
+            expect(reminderOptions[2]).toBe(dateTime);
+            var callBack = reminderOptions[3];
+            callBack(someReminders());
+            expect(NotificationService.getReminders).toHaveBeenCalled();
+        });
+
+        it('should be removed', function() {
+            controller.removeReminder(item);
+
+            expect(NotificationService.removeReminder).toHaveBeenCalled();
+            var reminderOptions = NotificationService.removeReminder.calls.mostRecent().args;
+            expect(reminderOptions[0]).toBe(item.id);
+            expect(reminderOptions[1]).toBe(card.name + ':' + item.name);
+            var callBack = reminderOptions[2];
+            callBack(someReminders());
+            expect(NotificationService.getReminders).toHaveBeenCalled();
+        });
+
+        it('should be shown in readable format', function() {
+            controller.readableDate(dateString);
+
+            expect(NotificationService.readableDate).toHaveBeenCalledWith(dateString);
+        });
+
+        it('should be checked if in future', function() {
+            controller.isReminderInFuture(dateString);
+
+            expect(NotificationService.isDateInFurure).toHaveBeenCalledWith(dateString);
+        });
+    });
+
     function someCheckList() {
         return {
             'id': 'checkListId',
@@ -231,12 +320,21 @@ describe('Unit: ShowTrelloBoardsController', function() {
         }
     };
 
+    function someReminders() {
+        return {
+            'id1': 'time1',
+            'id2': 'time2'
+        };
+    }
+
     function initController() {
         controller = $controller('TrelloCardController', {
             $scope: scope,
             AuthService: authService,
             TrelloAPIFactory: trelloAPIFactory,
-            FavoriteCardsService: favoriteCardsService
+            FavoriteCardsService: favoriteCardsService,
+            NotificationService: NotificationService,
+            mdcDateTimeDialog: mdcDateTimeDialog
         }, binding);
     }
 

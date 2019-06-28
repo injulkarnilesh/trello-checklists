@@ -14,6 +14,7 @@ module.exports = function(config) {
       'app/lib/angular-material/angular-material.min.js',
       'app/lib/angular-material-icons/angular-material-icons.min.js',
       'app/lib/angular-messages/angular-messages.min.js',
+      'app/lib/moment/min/moment.min.js',
       'app/lib/ng-material-datetimepicker/dist/angular-material-datetimepicker.min.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'app/app.js',

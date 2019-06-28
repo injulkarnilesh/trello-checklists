@@ -5,12 +5,14 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
   $mdThemingProvider.theme('default')
     .primaryPalette('blue');
 })
-.service('StorageService', [function() {
+.service('StorageService', ['$timeout', function($timeout) {
   
   this.getStorage = function(key, callback) {
     chrome.storage.sync.get(key, function(data) {
       if(callback) {
-        callback(data[key]);
+        $timeout(function() {
+          callback(data[key]);
+        });
       }
     });
   }
@@ -20,7 +22,9 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
     objectList[key] = objects;
     chrome.storage.sync.set(objectList, function() {
       if(callback) {
-        callback();
+        $timeout(function() {
+          callback();
+        });
       }
     })
   }

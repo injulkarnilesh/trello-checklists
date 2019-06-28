@@ -29,9 +29,28 @@
                 <fieldset class="standard">
                     <legend><b>{{checkList.name}}</b></legend>
                     <div ng-repeat="item in checkList.checkItems">
-                        <md-checkbox ng-checked="trelloCardController.isComplete(item)" ng-click="trelloCardController.toggleItem(item)">
+                        <md-checkbox ng-checked="trelloCardController.isComplete(item)" 
+                                    ng-click="trelloCardController.toggleItem(item)">
                             {{item.name}}
                         </md-checkbox>
+                        <span ng-if="trelloCardController.showReminders && !trelloCardController.isComplete(item)">
+                            <md-button aria-label="comment" class="md-icon-button" 
+                                        ng-click="trelloCardController.setReminder(item)" >
+                                    <md-icon ng-if="!trelloCardController.reminders[item.id]" md-svg-src="images/icons/alarm_add.svg">
+                                    </md-icon>
+                                    <md-icon ng-if="trelloCardController.reminders[item.id]" 
+                                            ng-class="{'green-icon': trelloCardController.isReminderInFuture(trelloCardController.reminders[item.id]) }"
+                                            md-svg-src="images/icons/alarm_on.svg">
+                                        <md-tooltip > {{ trelloCardController.readableDate(trelloCardController.reminders[item.id]) }}</md-tooltip> 
+                                    </md-icon>
+                            </md-button>
+                            <md-button ng-if="trelloCardController.reminders[item.id]" class="md-icon-button" 
+                                        ng-click="trelloCardController.removeReminder(item)">
+                                <md-icon  md-svg-src="images/icons/alarm_off.svg">
+                                </md-icon>
+                            </md-button>
+                        </span>
+                        <md-divider></md-divider>
                     </div>
                 </fieldset>
                 <br/>
