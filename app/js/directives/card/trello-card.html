@@ -2,7 +2,7 @@
     <md-card ng-class="{'card-with-no-checklist-items': !trelloCardController.hasItems()}">
         <md-card-header>
             <md-card-header-text>
-            <span class="md-title">{{trelloCardController.card.name}}</span>
+            <h3>{{trelloCardController.card.name}}</h3>
             <span class="md-subhead" ng-if="trelloCardController.hasItems()">
                 <md-progress-linear md-mode="determinate" value="{{(trelloCardController.completeItemCount/trelloCardController.totalItemCount)*100}}"></md-progress-linear>
             </span>
@@ -50,7 +50,6 @@
                                 </md-icon>
                             </md-button>
                         </span>
-                        <md-divider></md-divider>
                     </div>
                 </fieldset>
                 <br/>
