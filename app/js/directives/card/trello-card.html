@@ -16,7 +16,7 @@
                 </md-button>
                 <md-button class="md-icon-button" aria-label="toggle">
                     <md-icon ng-if="(!trelloCardController.favoriteUpdating) && !trelloCardController.isFavorite()" md-svg-icon="star" ng-click="trelloCardController.favoriteIt()"></md-icon>
-                    <md-icon ng-if="(!trelloCardController.favoriteUpdating) && trelloCardController.isFavorite()" md-svg-icon="stared" ng-click="trelloCardController.unFavoriteIt()"></md-icon>
+                    <md-icon ng-if="(!trelloCardController.favoriteUpdating) && trelloCardController.isFavorite()" md-colors="{color:'primary'}" md-svg-icon="stared" ng-click="trelloCardController.unFavoriteIt()"></md-icon>
                     <md-icon ng-if="trelloCardController.favoriteUpdating" md-svg-icon="star_half" ></md-icon>
                 </md-button>
                 <md-button class="md-icon-button" aria-label="toggle" ng-click="trelloCardController.openCardInTrello()">
