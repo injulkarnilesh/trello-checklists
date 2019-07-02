@@ -1,8 +1,9 @@
-<div>
-  <div ng-if="!toolbar.showOptions && vm.user.fullName" style="float:left">
-    <h2>{{vm.user.fullName}}</h2>
-  </div> 
-  <md-fab-toolbar md-open="toolbar.showOptions" md-direction="left">
+<div layout="row">
+  <span flex="60" ng-if="!toolbar.showOptions && vm.user.avatarUrl" layout="row">
+    <img flex="30" ng-if="vm.user.avatarUrl" ng-src="{{vm.user.avatarUrl}}/170.png" class="avatar" alt="Avatar"/>
+    <span flex="70" class="title-name" md-colors="{color:'primary'}">Trello Checklists</span>
+  </span> 
+  <md-fab-toolbar flex="" md-open="toolbar.showOptions" md-direction="left" >
     <md-fab-trigger class="align-with-text">
       <md-button aria-label="menu" class="md-fab md-primary">
         <md-icon md-svg-src="images/icons/dots-vertical.svg"></md-icon>

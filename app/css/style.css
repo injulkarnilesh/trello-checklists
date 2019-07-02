@@ -51,3 +51,19 @@
   color: red;
 }
 
+.avatar {
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.title-name {
+  line-height: 60px;
+  vertical-align: middle;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.float-left {
+  float: left;
+}
+
