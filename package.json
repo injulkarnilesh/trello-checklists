@@ -34,7 +34,7 @@
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1 ./app",
     "pretest": "npm install",
-    "test": "karma start karma.conf.js",
-    "test-single-run": "npm test -- --single-run"
+    "test": "karma start karma.conf.js --single-run",
+    "testing": "karma start karma.conf.js"
   }
 }
