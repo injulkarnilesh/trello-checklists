@@ -22,13 +22,6 @@ module.exports = function(config) {
       'app/js/**/*.js'
     ],
 
-    customLaunchers: {
-      Chrome_travis_ci: {
-          base: 'Chrome',
-          flags: ['--no-sandbox']
-      }
-    },
-
     autoWatch: true,
 
     frameworks: ['jasmine'],
@@ -47,8 +40,4 @@ module.exports = function(config) {
     ]
 
   });
-
-  if(process.env.TRAVIS){
-    config.browsers = ['Chrome_travis_ci'];
-  }
 };
