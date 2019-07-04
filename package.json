@@ -35,6 +35,7 @@
     "start": "http-server -a localhost -p 8000 -c-1 ./app",
     "pretest": "npm run copy-libs",
     "test": "karma start karma.conf.js",
-    "test-single-run": "npm test -- --single-run"
+    "test-single-run": "npm test -- --single-run",
+    "build": "npm run copy-libs && npm run test-single-run && rm -r node_modules"
   }
 }
