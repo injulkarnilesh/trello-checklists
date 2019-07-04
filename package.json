@@ -33,7 +33,7 @@
     "copy-libs": "cpx \"node_modules/{angular,bootstrap,jquery,ng-*,moment*,angular-*,html5-boilerplate/dist}/**/*\" app/lib -C",
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1 ./app",
-    "pretest": "npm install",
+    "pretest": "npm run copy-libs",
     "test": "karma start karma.conf.js --single-run",
     "testing": "karma start karma.conf.js"
   }
