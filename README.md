@@ -2,4 +2,12 @@
 Chrome plugin for trello checklists.
 
 ## Features:
-### TBD
+* View Cards by boards
+* View Checklist and Checklist items
+* Mark checklist items complete or incomplete
+* Quick view and manage favorite cards
+* Can set reminders for checklist items
+* Comes in light and dark theme
+
+## Download
+From here.
