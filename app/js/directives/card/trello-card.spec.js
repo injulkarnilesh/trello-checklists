@@ -119,6 +119,9 @@ describe('Unit: ShowTrelloBoardsController', function() {
         successCallBack();
         expect(checkListItem.state).toBe(INCOMPLETE_STATE);
         expect(controller.completeItemCount).toBe(0);
+        expect(NotificationService.removeReminder).toHaveBeenCalled();
+        var removedReminderId = NotificationService.removeReminder.calls.mostRecent().args[0];
+        expect(removedReminderId).toBe(checkListItem.id);
     });
 
     it('should toggle checklist item state from incomplete to complete', function() {

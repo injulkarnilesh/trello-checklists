@@ -46,6 +46,7 @@ angular.module('chrome.plugin.trello.checklist')
         trelloAPI.toggleCheckListItem(vm.card.id, item.id, newState, function(res) {
             item.state = newState;
             countComplteItems();
+            vm.removeReminder(item);
         });
     };
 
