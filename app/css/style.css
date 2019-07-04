@@ -44,11 +44,11 @@
 }
 
 .green-icon {
-  color: green;
+  color: green !important;
 }
 
 .red-icon {
-  color: red;
+  color: red !important;
 }
 
 .avatar {
