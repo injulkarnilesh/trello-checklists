@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('chrome.plugin.trello.checklist')
-.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$mdDialog', function(AuthService, TrelloAPIFactory, $mdDialog) {
+.controller('TrelloChecklistsController', ['AuthService', 'TrelloAPIFactory', '$mdDialog', 'ThemeService', function(AuthService, TrelloAPIFactory, $mdDialog, ThemeService) {
     var vm = this;
     var reloadFavoritesCallBacks = [];
-
+    
     vm.toolbar = {
         showOptions: false
     };
+
+    ThemeService.getTheme(function(theme) {
+        if(theme) {
+            vm.theme = theme;
+        }
+    });
 
     vm.isLoggedIn = AuthService.isLoggedIn();
     vm.user = { };
@@ -47,6 +53,10 @@ angular.module('chrome.plugin.trello.checklist')
 
     vm.registerReloadFavoritesCallBack = function(callBack) {
         reloadFavoritesCallBacks.push(callBack);
+    }
+
+    vm.changeTheme = function() {
+        vm.theme = ThemeService.toggleTheme(vm.theme);
     }
 
 }])

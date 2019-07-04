@@ -1,7 +1,7 @@
 <div layout="row">
   <span flex="60" ng-if="!toolbar.showOptions && vm.user.avatarUrl" layout="row">
     <img flex="30" ng-if="vm.user.avatarUrl" ng-src="{{vm.user.avatarUrl}}/170.png" class="avatar" alt="Avatar"/>
-    <span flex="70" class="title-name" md-colors="{color:'primary'}">Trello Checklists</span>
+    <span flex="70" class="title-name" md-colors="{color:'default-primary'}">Trello Checklists</span>
   </span> 
   <md-fab-toolbar flex="" md-open="toolbar.showOptions" md-direction="left" >
     <md-fab-trigger class="align-with-text">
@@ -15,8 +15,8 @@
           <md-icon md-svg-src="images/icons/logout.svg">
           </md-icon>
         </md-button>
-        <md-button aria-label="photo" class="md-icon-button">
-          <md-icon md-svg-src="images/icons/thumbs.svg"></md-icon>
+        <md-button aria-label="photo" class="md-icon-button" ng-click="vm.changeTheme()">
+          <md-icon md-svg-src="images/icons/theme.svg"></md-icon>
         </md-button>
       </md-fab-actions>
     </md-toolbar>

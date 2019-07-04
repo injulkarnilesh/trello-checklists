@@ -2,7 +2,7 @@ beforeEach(module('chrome.plugin.trello.checklist'));
 
 describe('Unit: TrelloChecklistsController', function() {
 	var controller;
-    var authService, trelloAPIFactory, trelloAPI;
+    var authService, trelloAPIFactory, trelloAPI, themeService;
     var $controller;
     var scope;
     var token;
@@ -18,6 +18,10 @@ describe('Unit: TrelloChecklistsController', function() {
             logout: jasmine.createSpy(),
             toLoginPage: jasmine.createSpy(),
             toLogoutPage: jasmine.createSpy()
+        };
+        themeService = {
+            getTheme: jasmine.createSpy(),
+            toggleTheme: jasmine.createSpy()
         };
         trelloAPIFactory = {
             with: jasmine.createSpy()
@@ -56,6 +60,38 @@ describe('Unit: TrelloChecklistsController', function() {
 
         expect(controller.isLoggedIn).toBe(true);
         expect(authService.isLoggedIn).toHaveBeenCalled();
+    });
+
+    it('should get theme if already set', function() {
+        var theme = 'someTheme';
+        initController();
+    
+        expect(themeService.getTheme).toHaveBeenCalled();
+        var themeCallBack = themeService.getTheme.calls.mostRecent().args[0];
+        themeCallBack(theme);
+        expect(controller.theme).toBe(theme);
+    });
+
+    it('should not set theme if not already set', function() {
+        initController();
+    
+        expect(themeService.getTheme).toHaveBeenCalled();
+        var themeCallBack = themeService.getTheme.calls.mostRecent().args[0];
+        themeCallBack();
+        expect(controller.theme).toBeUndefined();
+    });
+
+    it('should toggle theme', function() {
+        var existingTheme = 'currentTheme'
+        var newTheme = 'newTheme';
+        themeService.toggleTheme.and.returnValue(newTheme);
+        initController();
+        controller.theme = existingTheme;
+        
+        controller.changeTheme();
+        expect(themeService.toggleTheme).toHaveBeenCalledWith(existingTheme);
+    
+        expect(controller.theme).toBe(newTheme);
     });
 
     it('should create trello api if logged in', function() {
@@ -154,7 +190,8 @@ describe('Unit: TrelloChecklistsController', function() {
             $scope: scope,
             AuthService: authService,
             TrelloAPIFactory: trelloAPIFactory,
-            $mdDialog: mdDialog
+            $mdDialog: mdDialog,
+            ThemeService: themeService
         });
     }
 

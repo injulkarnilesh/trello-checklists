@@ -4,6 +4,9 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('blue');
+  $mdThemingProvider.theme('dark')
+    .primaryPalette('blue').dark();  
+  $mdThemingProvider.alwaysWatchTheme(true);
 })
 .service('StorageService', ['$timeout', function($timeout) {
   
@@ -64,9 +67,8 @@ angular.module('chrome.plugin.trello.checklist', ['ngMaterial', 'ngMdIcons', 'ng
   $mdIconProvider
     .icon('dots-vertical', 'images/icons/dots-vertical.svg', 24)
     .icon('dots-horizontal', 'images/icons/dots-horizontal.svg', 24)
-    .icon('stared', 'images/icons/star.svg', 24)
-    .icon('star_half', 'images/icons/star_half.svg', 24)
-    .icon('star', 'images/icons/star_border.svg', 24)
+    .icon('favorite', 'images/icons/favorite.svg', 24)
+    .icon('unfavorite', 'images/icons/unfavorite.svg', 24)
     .icon('close', 'images/icons/close.svg', 24)
     .icon('open', 'images/icons/open-in-new.svg', 12)
     .icon('clear', 'images/icons/clear.svg', 24)

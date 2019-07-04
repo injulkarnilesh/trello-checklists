@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="app/lib/ng-material-datetimepicker/dist/material-datetimepicker.min.css">
     <link rel="stylesheet" type="text/css" href="app/css/style.css">
   </head>
-  <body ng-controller="TrelloChecklistsController as vm" layout="row" ng-cloak>
+  <body ng-controller="TrelloChecklistsController as vm" layout="row" ng-cloak md-theme="{{vm.theme}}">
     <div layout="column" flex>
       <md-content flex>
         <div ng-if="!vm.isLoggedIn">
@@ -46,6 +46,7 @@
     <script type="text/javascript" src="app/js/services/trello-api.js"></script>
     <script type="text/javascript" src="app/js/services/favorite-cards-service.js"></script>
     <script type="text/javascript" src="app/js/services/notification-service.js"></script>
+    <script type="text/javascript" src="app/js/services/theme-service.js"></script>
     <script type="text/javascript" src="app/js/controllers/login-controller.js"></script>
     <script type="text/javascript" src="app/js/controllers/trello-checklists-controller.js"></script>
     <script type="text/javascript" src="app/js/directives/boards/show-trello-boards.js"></script>
