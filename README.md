@@ -10,4 +10,4 @@ Chrome plugin for trello checklists.
 * Comes in light and dark theme
 
 ## Download
-From here.
+From [here](https://chrome.google.com/webstore/detail/trello-checklists/bablhonojcgncmcdjlijlghbjliiolee/related).

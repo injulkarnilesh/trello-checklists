@@ -31,8 +31,6 @@
     "storage",
     "alarms",
     "notifications",
-    "https://www.goodreads.com/",
-    "https://www.googleapis.com/",
     "https://trello.com/"
   ],
 
@@ -41,5 +39,5 @@
     "persistent": false
   },
   
-  "content_security_policy": "script-src 'self' https://sg.media-imdb.com https://*.media-imdb.com https://trello.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://trello.com; object-src 'self'"
 }
