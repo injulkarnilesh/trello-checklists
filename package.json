@@ -15,7 +15,7 @@
     "angular-messages": "1.7.5",
     "angular-route": "1.7.5",
     "html5-boilerplate": "0.0.1",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "ng-material-datetimepicker": "1.18.5"
   },
   "devDependencies": {
